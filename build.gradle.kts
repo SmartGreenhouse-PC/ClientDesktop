@@ -28,5 +28,5 @@ tasks.getByName<Test>("test") {
 }
 
 application{
-    mainClass.set("it.unibo.smartgh.Main")
+    mainClass.set("it.unibo.smartgh.Launcher")
 }
