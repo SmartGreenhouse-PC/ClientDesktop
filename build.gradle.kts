@@ -13,7 +13,7 @@ repositories {
 
 javafx {
     version = "16"
-    modules = listOf("javafx.controls")
+    modules = listOf("javafx.controls", "javafx.fxml")
 }
 
 dependencies {
