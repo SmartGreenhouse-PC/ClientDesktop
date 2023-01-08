@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,14 +29,13 @@
                   <VBox alignment="CENTER_LEFT">
                      <children>
                         <Label text="Valore attuale">
-                           <Font name="System Bold" size="13.0" />
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="actualVal" text="Label">
                            <font>
                               <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="currentValue" text="Label">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                      </children>
@@ -46,14 +46,17 @@
                   <VBox alignment="CENTER_LEFT">
                      <children>
                         <Label text="Valori ottimali" textAlignment="JUSTIFY">
-                              <Font name="System Bold" size="13.0" />
                            <font>
-                              <Font name="System Bold" size="13.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <HBox>
                            <children>
-                              <Label text="Min:" />
+                              <Label text="Min:" >
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
                               <Label fx:id="minValue">
                                  <font>
                                     <Font size="18.0" />
@@ -63,7 +66,11 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <Label text="Max:" />
+                              <Label text="Max:" >
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
                               <Label fx:id="maxValue">
                                  <font>
                                     <Font size="18.0" />
@@ -114,7 +121,4 @@
          </children>
       </VBox>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
 </AnchorPane>
