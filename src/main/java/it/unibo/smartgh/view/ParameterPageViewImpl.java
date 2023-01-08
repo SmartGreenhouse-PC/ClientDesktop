@@ -1,5 +1,6 @@
 package it.unibo.smartgh.view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
@@ -11,10 +12,6 @@ import java.net.URL;
 import java.util.Date;
 
 public class ParameterPageViewImpl implements ParameterPageView {
-    private final String name;
-    private final Double min;
-    private final Double max;
-    private final Double value;
     @FXML
     private Label parameterName;
 
@@ -35,25 +32,26 @@ public class ParameterPageViewImpl implements ParameterPageView {
     @FXML
     private TableView table;
 
-    @FXML
-    public void initialize(){
-        this.parameterName.setText(name.replace(name.charAt(0), name.toUpperCase().charAt(0)));
-        URL url = getClass().getClassLoader().getResource("images/"+name+".png");
-        this.img.setImage(new Image(url.toExternalForm()));
-        this.minValue.setText(min.toString());
-        this.maxValue.setText(max.toString());
-        this.currentValue.setText(value.toString());
-    }
-
-    public ParameterPageViewImpl(String name, Double min, Double max, Double currentValue) {
-        this.name = name;
-        this.min = min;
-        this.max = max;
-        this.value = currentValue;
-    }
 
     @Override
-    public void updateCurrentValue(Double value) {
-        this.currentValue.setText(value.toString());
+    public void setCurrentValue(Double value) {
+        Platform.runLater(() -> {
+            this.currentValue.setText(value.toString());
+        });
+    }
+
+
+    @Override
+    public void initializePage(String name, Double min, Double max, Double currentValue) {
+        Platform.runLater(() -> {
+            this.parameterName.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
+            URL url = getClass().getClassLoader().getResource("images/"+name+".png");
+            this.img.setImage(new Image(url.toExternalForm()));
+            this.minValue.setText(min.toString());
+            this.maxValue.setText(max.toString());
+            this.currentValue.setText(currentValue.toString());
+            //TODO line chart and table
+        });
+
     }
 }
