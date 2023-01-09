@@ -1,0 +1,116 @@
+.normalText {
+    -fx-font-size: 14px;
+}
+
+.titleText {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.NORMAL {
+    -fx-text-fill: #04B700;
+}
+
+.errorText, .ALARM {
+    -fx-text-fill: #842029;
+}
+
+.descriptionText {
+    -fx-font-size: 14px;
+}
+
+.ALARMState {
+    -fx-background-color: #F8D7DA;
+}
+
+.NORMALState {
+    -fx-background-color: transparent;
+}
+
+.alarmPane {
+    -fx-background-color: #F8D7DA;
+    -fx-border-color: #F1AEB5;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-border-radius: 5;
+}
+
+.transparentPane {
+    -fx-background-color: transparent;
+}
+
+.button, .toggle-button, .outlined-btn  {
+    -fx-font-size: 14px;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-border-radius: 5;
+    -fx-cursor: pointer;
+    -fx-padding: 6px 10px;
+}
+
+.button:hover, .toggle-button:selected, .toggle-button:hover, .outlined-btn:hover {
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.normalButton {
+    -fx-border-color: #04B700;
+    -fx-text-fill: #04B700;
+}
+
+.normalButton:hover {
+    -fx-background-color: #04B700;
+}
+
+.alarmButton {
+    -fx-border-color: #842029;
+    -fx-text-fill: #842029;
+}
+
+.alarmButton:hover {
+    -fx-background-color: #842029;
+}
+
+.defaultButton {
+    -fx-border-color: black;
+    -fx-text-fill: black;
+}
+
+.defaultButton:hover {
+    -fx-text-fill: black;
+    -fx-background-color: white;
+}
+
+.infoButton {
+    -fx-border-radius: 50%;
+    -fx-background-color: transparent;
+}
+
+.infoButton:hover {
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.toggle-button, .outlined-btn {
+    -fx-border-color: #17A2B8;
+    -fx-text-fill: #17A2B8;
+}
+
+.toggle-button:selected, .toggle-button:hover, .outlined-btn:hover, .slider .thumb {
+    -fx-background-color: #17A2B8;
+}
+
+.outlined-btn:pressed {
+    -fx-effect: dropshadow(three-pass-box, #49d3e9, 5, 0, 0, 0);
+}
+
+.slider{
+    -fx-control-inner-background: #FFFFFF
+}
+
+#areaBt:hover{
+    -fx-font-weight: bold;
+}
