@@ -34,24 +34,28 @@ public class ParameterPageViewImpl implements ParameterPageView {
 
 
     @Override
-    public void setCurrentValue(Double value) {
+    public void setCurrentValue(String value, String status) {
         Platform.runLater(() -> {
-            this.currentValue.setText(value.toString());
+            this.currentValue.setText(value);
+            this.setColorByStatus(status);
         });
     }
 
-
     @Override
-    public void initializePage(String name, Double min, Double max, Double currentValue) {
+    public void initializePage(String name, String min, String max, String currentValue, String status) {
         Platform.runLater(() -> {
             this.parameterName.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
             URL url = getClass().getClassLoader().getResource("images/"+name+".png");
             this.img.setImage(new Image(url.toExternalForm()));
-            this.minValue.setText(min.toString());
-            this.maxValue.setText(max.toString());
-            this.currentValue.setText(currentValue.toString());
+            this.minValue.setText(min);
+            this.maxValue.setText(max);
+            this.currentValue.setText(currentValue);
+            this.setColorByStatus(status);
             //TODO line chart and table
         });
+    }
 
+    private void setColorByStatus(String status){
+        this.currentValue.setStyle(status.equals("normal") ? "-fx-text-fill: '6DB960';" : "-fx-text-fill: 'D90000';");
     }
 }

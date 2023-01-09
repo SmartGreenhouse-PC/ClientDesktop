@@ -6,7 +6,7 @@ public interface ParameterPageView {
      *
      * @param value
      */
-    void setCurrentValue(Double value);
+    void setCurrentValue(String value, String status);
 
     /**
      * Initialize the parameter page
@@ -16,5 +16,5 @@ public interface ParameterPageView {
      * @param max          optimal value
      * @param currentValue sensed by the microcontroller
      */
-    void initializePage(String name, Double min, Double max, Double currentValue);
+    void initializePage(String name, String min, String max, String currentValue, String status);
 }

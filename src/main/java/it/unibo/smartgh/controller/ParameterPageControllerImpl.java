@@ -2,6 +2,9 @@ package it.unibo.smartgh.controller;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.net.NetServer;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.unibo.smartgh.model.*;
@@ -19,8 +22,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private final Vertx vertx;
     private final Gson gson;
     private Parameter parameter;
-    private Double min = 5.0;
-    private Double max = 28.0;
+    private Double min;
+    private Double max;
 
     ParameterPageView view;
 
@@ -31,12 +34,31 @@ public class ParameterPageControllerImpl implements ParameterPageController {
         this.vertx = vertx;
         this.view = new ParameterPageViewImpl();
         this.updateView();
+        this.setSocket();
+    }
+
+    private void setSocket() {
+        HttpServer server = vertx.createHttpServer();
+        server.webSocketHandler(ctx -> {
+            ctx.textMessageHandler(msg -> {
+                JsonObject json = new JsonObject(msg);
+                if (json.getValue("parameterName").equals(parameterName)) {
+                    this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
+                    this.view.setCurrentValue(json.getValue("value").toString(), this.status());
+                }
+            });
+        }).listen(1234, "localhost");
 
     }
 
     @Override
     public ParameterPageView getView() {
         return this.view;
+    }
+
+    private String status(){
+        return this.parameter.getCurrentValue().getValue().compareTo(this.min) >=0 &&
+                this.parameter.getCurrentValue().getValue().compareTo(this.max) <=0 ? "normal" : "alarm";
     }
 
     private void updateView(){
@@ -60,7 +82,12 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             .onSuccess(r -> {
                                 ParameterValue val = gson.fromJson(r.body(), ParameterValueImpl.class);
                                 this.parameter = new ParameterImpl(this.parameterName, val, new ArrayList<>());
-                                this.view.initializePage(this.parameterName, this.min, this.max, this.parameter.getCurrentValue().getValue());
+                                String status = this.status();
+                                this.view.initializePage(this.parameterName,
+                                        this.min.toString(),
+                                        this.max.toString(),
+                                        this.parameter.getCurrentValue().getValue().toString(),
+                                        status);
                             })
                             .onFailure(System.out::println);
                 });
