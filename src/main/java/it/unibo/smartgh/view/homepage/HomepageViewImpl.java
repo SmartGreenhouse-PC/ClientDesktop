@@ -32,6 +32,6 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void initialize() {
-        System.out.println("home page initialize");
+        this.controller = new HomepageControllerImpl(this);
     }
 }
