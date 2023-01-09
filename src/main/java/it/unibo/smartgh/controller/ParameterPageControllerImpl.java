@@ -3,15 +3,20 @@ package it.unibo.smartgh.controller;
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.net.NetServer;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.unibo.smartgh.model.*;
 import it.unibo.smartgh.view.ParameterPageView;
 import it.unibo.smartgh.view.ParameterPageViewImpl;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class ParameterPageControllerImpl implements ParameterPageController {
@@ -43,8 +48,19 @@ public class ParameterPageControllerImpl implements ParameterPageController {
             ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
                 if (json.getValue("parameterName").equals(parameterName)) {
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
                     this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
-                    this.view.setCurrentValue(json.getValue("value").toString(), this.status());
+                    try {
+                        this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date").toString()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    var newHistory = this.parameter.getHistory();
+                    newHistory.remove(0);
+                    ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
+                    newHistory.add(newParamValue);
+                    this.parameter.setHistory(newHistory);
+                    this.view.updateValues(json.getValue("value").toString(), this.status(), this.parameter.getHistoryAsMap());
                 }
             });
         }).listen(1234, "localhost");
@@ -81,12 +97,27 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             .send()
                             .onSuccess(r -> {
                                 ParameterValue val = gson.fromJson(r.body(), ParameterValueImpl.class);
-                                this.parameter = new ParameterImpl(this.parameterName, val, new ArrayList<>());
+                                this.parameter = new ParameterImpl(this.parameterName, val);
+                            })
+                            .onFailure(System.out::println);
+                }).andThen(resp -> {
+                    client.get(8895, HOST,"/"+this.parameterName + "/history")
+                            .addQueryParam("limit","10")
+                            .send()
+                            .onSuccess(r -> {
+                                JsonArray array = r.body().toJsonArray();
+                                List<ParameterValue> history = new ArrayList<>();
+                                array.forEach(o -> {
+                                    ParameterValue op = gson.fromJson(o.toString(), ParameterValueImpl.class);
+                                    history.add(op);
+                                });
+                                this.parameter.setHistory(history);
                                 String status = this.status();
                                 this.view.initializePage(this.parameterName,
                                         this.min.toString(),
                                         this.max.toString(),
                                         this.parameter.getCurrentValue().getValue().toString(),
+                                        this.parameter.getHistoryAsMap(),
                                         status);
                             })
                             .onFailure(System.out::println);

@@ -2,7 +2,8 @@ package it.unibo.smartgh.view;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
+import javafx.scene.Node;
+import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -10,6 +11,8 @@ import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class ParameterPageViewImpl implements ParameterPageView {
     @FXML
@@ -27,22 +30,29 @@ public class ParameterPageViewImpl implements ParameterPageView {
     private ImageView img;
 
     @FXML
-    private LineChart<Date, Double> lineChart;
+    private CategoryAxis xAxis ;
+
+    @FXML
+    private NumberAxis yAxis ;
+    @FXML
+    private AreaChart<CategoryAxis, NumberAxis> areaChart;
 
     @FXML
     private TableView table;
 
 
+
     @Override
-    public void setCurrentValue(String value, String status) {
+    public void updateValues(String value, String status, Map<String, Double> history) {
         Platform.runLater(() -> {
             this.currentValue.setText(value);
             this.setColorByStatus(status);
+            this.setLineChart(history, status.equals("normal") ? "6DB960" : "D90000");
         });
     }
 
     @Override
-    public void initializePage(String name, String min, String max, String currentValue, String status) {
+    public void initializePage(String name, String min, String max, String currentValue, Map<String, Double> history, String status) {
         Platform.runLater(() -> {
             this.parameterName.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
             URL url = getClass().getClassLoader().getResource("images/"+name+".png");
@@ -51,8 +61,26 @@ public class ParameterPageViewImpl implements ParameterPageView {
             this.maxValue.setText(max);
             this.currentValue.setText(currentValue);
             this.setColorByStatus(status);
-            //TODO line chart and table
+            this.setLineChart(history, status.equals("normal") ? "6DB960" : "D90000");
         });
+    }
+
+    private void setLineChart(Map<String, Double> history, String color) {
+        areaChart.getData().clear();
+        yAxis.setLowerBound(0);
+        yAxis.setLowerBound(20_000);
+        areaChart.getXAxis().setLabel("date and time");
+        areaChart.getYAxis().setLabel("values");
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("parameter history");
+        history.forEach((k,v) -> series.getData().add(new XYChart.Data(k, v)));
+        areaChart.getData().add(series);
+        Node fill = series.getNode().lookup(".chart-series-area-fill"); // only for AreaChart
+        Node line = series.getNode().lookup(".chart-series-area-line");
+
+        line.setStyle("-fx-stroke: #" + color);
+        fill.setStyle("-fx-fill: #" + color);
     }
 
     private void setColorByStatus(String status){

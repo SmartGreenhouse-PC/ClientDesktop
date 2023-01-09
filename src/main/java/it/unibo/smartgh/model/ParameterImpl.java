@@ -1,17 +1,18 @@
 package it.unibo.smartgh.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ParameterImpl implements Parameter{
     private final String name;
     private final ParameterValue currentValue;
     private List<ParameterValue> history;
 
-    public ParameterImpl(String name, ParameterValue currentValue, List<ParameterValue> history) {
+    public ParameterImpl(String name, ParameterValue currentValue) {
         this.name = name;
         this.currentValue = currentValue;
-        this.history = history;
     }
 
     @Override
@@ -27,5 +28,20 @@ public class ParameterImpl implements Parameter{
     @Override
     public List<ParameterValue> getHistory() {
         return this.history;
+    }
+
+    public void setHistory(List<ParameterValue> history){
+        this.history = history;
+    }
+
+    public Map<String, Double> getHistoryAsMap(){
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        Map<String, Double> map = this.getHistory()
+                .stream()
+                .collect(Collectors.toMap(p -> formatter.format(p.getDate()), ParameterValue::getValue));
+        return map.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 }

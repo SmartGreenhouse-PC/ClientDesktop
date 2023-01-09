@@ -1,12 +1,14 @@
 package it.unibo.smartgh.view;
 
+import java.util.Map;
+
 public interface ParameterPageView {
     /**
      * Set the current value label
      *
      * @param value
      */
-    void setCurrentValue(String value, String status);
+    void updateValues(String value, String status, Map<String, Double> history);
 
     /**
      * Initialize the parameter page
@@ -16,5 +18,5 @@ public interface ParameterPageView {
      * @param max          optimal value
      * @param currentValue sensed by the microcontroller
      */
-    void initializePage(String name, String min, String max, String currentValue, String status);
+    void initializePage(String name, String min, String max, String currentValue, Map<String, Double> history, String status);
 }
