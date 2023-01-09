@@ -1,15 +1,27 @@
 package it.unibo.smartgh.view;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 
 public class ApplicationViewImpl extends Application implements ApplicationView {
+
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    public void initialize() {
+        this.changeScene("homepage.fxml");
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -26,5 +38,15 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
     @Override
     public void display() {
         launch();
+    }
+
+    @Override
+    public void changeScene(String fxmlFileName) {
+        try {
+            final Parent scene = FXMLLoader.load(ClassLoader.getSystemResource("layout/" + fxmlFileName));
+            this.borderPane.setCenter(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
