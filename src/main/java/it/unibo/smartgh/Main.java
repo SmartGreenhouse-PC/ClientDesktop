@@ -5,15 +5,12 @@ import io.vertx.core.Vertx;
 import it.unibo.smartgh.controller.ParameterPageController;
 import it.unibo.smartgh.controller.ParameterPageControllerImpl;
 import it.unibo.smartgh.presentation.GsonUtils;
-import it.unibo.smartgh.view.ParameterPageView;
-import it.unibo.smartgh.view.ParameterPageViewImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class Main extends Application {
     private static final int SCENE_WIDTH = 500;

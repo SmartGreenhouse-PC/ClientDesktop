@@ -27,6 +27,7 @@ public class ParameterImpl implements Parameter{
 
     @Override
     public List<ParameterValue> getHistory() {
+        this.history.sort(Comparator.comparing(ParameterValue::getDate));
         return this.history;
     }
 
