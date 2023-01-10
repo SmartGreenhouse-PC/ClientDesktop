@@ -19,4 +19,10 @@ public interface Greenhouse {
      * @return the actual greenhouse modality of management.
      */
     Modality getActualModality();
+
+    /**
+     * Set the greenhouse id
+     * @param id of the greenhouse
+     */
+    void setId(String id);
 }

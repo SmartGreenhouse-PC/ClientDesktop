@@ -5,7 +5,7 @@ package it.unibo.smartgh.model;
  */
 public class GreenhouseImpl implements Greenhouse{
     private final Plant plant;
-    private final String id;
+    private String id;
     private Modality modality;
 
     /**
@@ -13,10 +13,9 @@ public class GreenhouseImpl implements Greenhouse{
      * @param plant of the greenhouse
      * @param modality the actual modality of management
      */
-    public GreenhouseImpl(String id, Plant plant, Modality modality) {
+    public GreenhouseImpl(Plant plant, Modality modality) {
         this.plant = plant;
         this.modality = modality;
-        this.id = id;
     }
 
     @Override
@@ -32,5 +31,9 @@ public class GreenhouseImpl implements Greenhouse{
     @Override
     public Modality getActualModality() {
         return this.modality;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 }
