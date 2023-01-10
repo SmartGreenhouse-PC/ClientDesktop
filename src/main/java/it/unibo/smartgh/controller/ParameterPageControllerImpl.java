@@ -20,6 +20,8 @@ import java.util.List;
 
 public class ParameterPageControllerImpl implements ParameterPageController {
     private final static int PORT = 8890;
+    private final static int SOCKET_PORT = 1234;
+    private final static String SOCKET_HOST = "localhost";
     private final static String HOST = "localhost";
     private final static String BASE_PATH = "/clientCommunication";
     private static final String GREENHOUSE_PATH = "/greenhouse";
@@ -48,23 +50,25 @@ public class ParameterPageControllerImpl implements ParameterPageController {
         server.webSocketHandler(ctx -> {
             ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
-                if (json.getValue("parameterName").equals(parameterName)) {
-                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-                    this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
-                    try {
-                        this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date").toString()));
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                if(json.getValue("greenhouseId").equals(this.id)) {
+                    if (json.getValue("parameterName").equals(parameterName)) {
+                        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+                        this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
+                        try {
+                            this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date").toString()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        var newHistory = this.parameter.getHistory();
+                        newHistory.remove(0);
+                        ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
+                        newHistory.add(newParamValue);
+                        this.parameter.setHistory(newHistory);
+                        this.view.updateValues(json.getValue("value").toString(), this.status(), this.parameter.getHistoryAsMap());
                     }
-                    var newHistory = this.parameter.getHistory();
-                    newHistory.remove(0);
-                    ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
-                    newHistory.add(newParamValue);
-                    this.parameter.setHistory(newHistory);
-                    this.view.updateValues(json.getValue("value").toString(), this.status(), this.parameter.getHistoryAsMap());
                 }
             });
-        }).listen(1234, "localhost"); //TODO add id to path
+        }).listen(SOCKET_PORT, SOCKET_HOST);
 
     }
 
