@@ -4,7 +4,6 @@ import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
-import it.unibo.smartgh.view.SubView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +15,6 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +53,7 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void initialize() {
-        this.controller = new HomepageControllerImpl(this);
+        this.controller = new HomepageControllerImpl(this, "id"); //todo id
         List<String> parameterTypes = ParameterType.parameters();
         for (int i = 0; i < parameterTypes.size() / 2; i++) {
             for (int j = 0; j < 2; j++) {
