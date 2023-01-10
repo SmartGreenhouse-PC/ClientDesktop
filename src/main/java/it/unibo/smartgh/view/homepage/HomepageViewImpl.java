@@ -4,6 +4,7 @@ import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import org.junit.platform.commons.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -87,14 +87,16 @@ public class HomepageViewImpl implements HomepageView {
 
     @Override
     public void setPlantInformation(String name, String description, String img) {
-        this.plantNameLabel.setText(name);
-        this.plantDescriptionLabel.setText(description);
-        this.plantImage.setImage(new Image(img));
-        this.loadingImg.setVisible(false);
+        Platform.runLater(() -> {
+            this.plantNameLabel.setText(name);
+            this.plantDescriptionLabel.setText(description);
+            this.plantImage.setImage(new Image(img));
+            this.loadingImg.setVisible(false);
+        });
     }
 
     @Override
-    public void setParameterInfo(ParameterType parameterType, Double minValue, Double maxValue) {
-        this.parameterViews.get(parameterType).setOptimalValue(minValue, maxValue);
+    public void setParameterInfo(ParameterType parameterType, Double minValue, Double maxValue, String unit) {
+        this.parameterViews.get(parameterType).setOptimalValue(minValue, maxValue, unit);
     }
 }

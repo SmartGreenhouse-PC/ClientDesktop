@@ -46,8 +46,8 @@ public class ParameterViewImpl implements ParameterView {
     }
 
     @Override
-    public void setOptimalValue(Double minValue, Double maxValue) {
-        Platform.runLater(() -> this.optimalValueLabel.setText(minValue + " - " + maxValue));
+    public void setOptimalValue(Double minValue, Double maxValue, String unit) {
+        Platform.runLater(() -> this.optimalValueLabel.setText(minValue + " " + unit + " - " + maxValue + " " + unit));
     }
 
     @Override
