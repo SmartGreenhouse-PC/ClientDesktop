@@ -6,4 +6,6 @@ import it.unibo.smartgh.view.SubView;
 public interface ParameterView extends SubView {
 
     void setParameter(ParameterType parameter);
+
+    void setOptimalValue(Double minValue, Double maxValue);
 }
