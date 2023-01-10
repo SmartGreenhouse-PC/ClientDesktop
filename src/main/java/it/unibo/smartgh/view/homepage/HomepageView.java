@@ -1,4 +1,6 @@
 package it.unibo.smartgh.view.homepage;
 
-public interface HomepageView {
+import it.unibo.smartgh.view.SubView;
+
+public interface HomepageView extends SubView {
 }
