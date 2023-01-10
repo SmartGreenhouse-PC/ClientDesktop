@@ -99,4 +99,9 @@ public class HomepageViewImpl implements HomepageView {
     public void setParameterInfo(ParameterType parameterType, Double minValue, Double maxValue, String unit) {
         this.parameterViews.get(parameterType).setOptimalValue(minValue, maxValue, unit);
     }
+
+    @Override
+    public void updateParameterValue(ParameterType parameterType, Double value) {
+        this.parameterViews.get(parameterType).setCurrentValue(value);
+    }
 }

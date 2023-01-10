@@ -19,8 +19,12 @@ public class ParameterViewImpl implements ParameterView {
     @FXML
     private ImageView parameterImg;
 
+    @FXML
+    private Label currentValueLabel;
+
     private ApplicationView mainView;
     private ParameterType parameter;
+    private String unit;
 
     public ParameterViewImpl() {
 
@@ -40,14 +44,20 @@ public class ParameterViewImpl implements ParameterView {
     public void setParameter(ParameterType parameter) {
         Platform.runLater(() -> {
             this.parameter = parameter;
-            this.parameterName.setText(parameter.getName());
+            this.parameterName.setText(parameter.getTitle());
             this.parameterImg.setImage(new Image("/images/" + parameter.getImagePath()));
         });
     }
 
     @Override
     public void setOptimalValue(Double minValue, Double maxValue, String unit) {
+        this.unit = unit;
         Platform.runLater(() -> this.optimalValueLabel.setText(minValue + " " + unit + " - " + maxValue + " " + unit));
+    }
+
+    @Override
+    public void setCurrentValue(Double value) {
+        Platform.runLater(() -> this.currentValueLabel.setText(value + " " + unit));
     }
 
     @Override
