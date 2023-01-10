@@ -1,5 +1,7 @@
 package it.unibo.smartgh.model;
 
+import java.util.Map;
+
 /**
  * Implementation of the plant entity
  */
@@ -15,6 +17,7 @@ public class PlantImpl implements Plant{
     private final Double maxSoilMoisture;
     private final Double minHumidity;
     private final Double maxHumidity;
+    private final Map<String,String> units;
 
     /**
      * Constructor of the plant entity
@@ -29,6 +32,7 @@ public class PlantImpl implements Plant{
      * @param maxSoilMoisture of the plant
      * @param minHumidity of the plant
      * @param maxHumidity of the plant
+     * @param units of parameters
      */
     public PlantImpl(String name,
                      String description,
@@ -40,7 +44,8 @@ public class PlantImpl implements Plant{
                      Double minSoilMoisture,
                      Double maxSoilMoisture,
                      Double minHumidity,
-                     Double maxHumidity) {
+                     Double maxHumidity,
+                     Map<String, String> units) {
         this.name = name;
         this.description = description;
         this.img = img;
@@ -52,6 +57,7 @@ public class PlantImpl implements Plant{
         this.maxSoilMoisture = maxSoilMoisture;
         this.minHumidity = minHumidity;
         this.maxHumidity = maxHumidity;
+        this.units = units;
     }
 
     @Override
@@ -107,5 +113,10 @@ public class PlantImpl implements Plant{
     @Override
     public String getImg() {
         return this.img;
+    }
+
+    @Override
+    public Map<String, String> getUnitMap() {
+        return this.units;
     }
 }
