@@ -11,10 +11,9 @@ public class GreenhouseDeserializer  extends GeneralDeserializer implements Json
         Greenhouse greenhouse = null;
         if(json instanceof JsonObject){
             JsonObject object = (JsonObject) json;
-            String id = this.getPropertyAsString(object,"id");
             Plant plant = this.getPropertyAs(object, "plant", PlantImpl.class, context);
             Modality modality = Modality.valueOf(this.getPropertyAsString(object, "modality"));
-            greenhouse = new GreenhouseImpl(id, plant, modality);
+            greenhouse = new GreenhouseImpl(plant, modality);
         }else{
             throw new JsonParseException("Not a valid greenhouse");
         }

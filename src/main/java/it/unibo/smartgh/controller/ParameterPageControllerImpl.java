@@ -15,13 +15,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 public class ParameterPageControllerImpl implements ParameterPageController {
-    private final static int PORT = 8889; //TODO to be change
+    private final static int PORT = 8890;
     private final static String HOST = "localhost";
+    private final static String BASE_PATH = "/clientCommunication";
+    private static final String GREENHOUSE_PATH = "/greenhouse";
     private final String id;
     private final String parameterName;
     private final Vertx vertx;
@@ -63,7 +64,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                     this.view.updateValues(json.getValue("value").toString(), this.status(), this.parameter.getHistoryAsMap());
                 }
             });
-        }).listen(1234, "localhost");
+        }).listen(1234, "localhost"); //TODO add id to path
 
     }
 
@@ -79,19 +80,19 @@ public class ParameterPageControllerImpl implements ParameterPageController {
 
     private void updateView(){
         WebClient client = WebClient.create(vertx);
-        //TODO cambiare la richiesta con quella al servizio gestione client
-        client.get(PORT, HOST, "/greenhouse")
+        client.get(PORT, HOST, BASE_PATH + GREENHOUSE_PATH)
                 .addQueryParam("id", id)
                 .as(BodyCodec.string())
                 .send()
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
+                    greenhouse.setId(this.id);
                     this.min = this.paramOptimalValue("Min", this.parameterName, greenhouse.getPlant());
                     this.max = this.paramOptimalValue("Max", this.parameterName, greenhouse.getPlant());
                 })
                 .onFailure(System.out::println)
                 .andThen( resp -> {
-                    client.get(8895, HOST, "/"+this.parameterName)
+                    client.get(8895, HOST, "/"+this.parameterName) //TODO correggere URI
                             .addQueryParam("id", id)
                             .as(BodyCodec.string())
                             .send()
@@ -99,28 +100,32 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                 ParameterValue val = gson.fromJson(r.body(), ParameterValueImpl.class);
                                 this.parameter = new ParameterImpl(this.parameterName, val);
                             })
-                            .onFailure(System.out::println);
-                }).andThen(resp -> {
-                    client.get(8895, HOST,"/"+this.parameterName + "/history")
-                            .addQueryParam("limit","10")
-                            .send()
-                            .onSuccess(r -> {
-                                JsonArray array = r.body().toJsonArray();
-                                List<ParameterValue> history = new ArrayList<>();
-                                array.forEach(o -> {
-                                    ParameterValue op = gson.fromJson(o.toString(), ParameterValueImpl.class);
-                                    history.add(op);
-                                });
-                                this.parameter.setHistory(history);
-                                String status = this.status();
-                                this.view.initializePage(this.parameterName,
-                                        this.min.toString(),
-                                        this.max.toString(),
-                                        this.parameter.getCurrentValue().getValue().toString(),
-                                        this.parameter.getHistoryAsMap(),
-                                        status);
-                            })
-                            .onFailure(System.out::println);
+                            .onFailure(System.out::println)
+                            .andThen(resp2 -> {
+                                client.get(PORT, HOST,BASE_PATH + "/parameter/history")
+                                        .addQueryParam("limit","10")
+                                        .addQueryParam("parameterName", this.parameterName)
+                                        .addQueryParam("id", this.id)
+                                        .send()
+                                        .onSuccess(r -> {
+                                            JsonArray array = r.body().toJsonArray();
+                                            List<ParameterValue> history = new ArrayList<>();
+                                            array.forEach(o -> {
+                                                ParameterValue op = gson.fromJson(o.toString(), ParameterValueImpl.class);
+                                                history.add(op);
+                                            });
+                                            this.parameter.setHistory(history);
+                                            String status = this.status();
+                                            this.view.initializePage(this.parameterName,
+                                                    this.min.toString(),
+                                                    this.max.toString(),
+                                                    this.parameter.getCurrentValue().getValue().toString(),
+                                                    this.parameter.getHistoryAsMap(),
+                                                    status);
+                                        })
+                                        .onFailure(System.out::println);
+                            });
+
                 });
     }
 
