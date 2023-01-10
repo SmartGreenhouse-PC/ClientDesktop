@@ -10,8 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import org.junit.platform.commons.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -53,7 +55,7 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void initialize() {
-        this.controller = new HomepageControllerImpl(this, "id"); //todo id
+        this.controller = new HomepageControllerImpl(this, "63af0ae025d55e9840cbc1fa"); //todo id
         List<String> parameterTypes = ParameterType.parameters();
         for (int i = 0; i < parameterTypes.size() / 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -72,14 +74,27 @@ public class HomepageViewImpl implements HomepageView {
         }
     }
 
+    @FXML
+    public void operationBtnClicked() {
+        this.mainView.changeScene("homepage_parameter.fxml"); //todo
+    }
+
     @Override
     public void setMainView(ApplicationView mainView) {
         this.mainView = mainView;
         this.parameterViews.values().forEach(p -> p.setMainView(mainView));
     }
 
-    @FXML
-    public void operationBtnClicked() {
-        this.mainView.changeScene("homepage_parameter.fxml"); //todo
+    @Override
+    public void setPlantInformation(String name, String description, String img) {
+        this.plantNameLabel.setText(name);
+        this.plantDescriptionLabel.setText(description);
+        this.plantImage.setImage(new Image(img));
+        this.loadingImg.setVisible(false);
+    }
+
+    @Override
+    public void setParameterInfo(ParameterType parameterType, Double minValue, Double maxValue) {
+        this.parameterViews.get(parameterType).setOptimalValue(minValue, maxValue);
     }
 }

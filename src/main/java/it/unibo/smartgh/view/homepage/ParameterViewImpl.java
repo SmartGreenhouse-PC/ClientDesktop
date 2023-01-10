@@ -2,14 +2,19 @@ package it.unibo.smartgh.view.homepage;
 
 import it.unibo.smartgh.model.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ParameterViewImpl implements ParameterView {
 
     @FXML
     private Label parameterName;
+
+    @FXML
+    private Label optimalValueLabel;
 
     @FXML
     private ImageView parameterImg;
@@ -33,9 +38,16 @@ public class ParameterViewImpl implements ParameterView {
 
     @Override
     public void setParameter(ParameterType parameter) {
-        this.parameter = parameter;
-        this.parameterName.setText(parameter.getName());
-//        this.parameterImg.setImage(new Image("/images/" + parameter.getImagePath()));
+        Platform.runLater(() -> {
+            this.parameter = parameter;
+            this.parameterName.setText(parameter.getName());
+            this.parameterImg.setImage(new Image("/images/" + parameter.getImagePath()));
+        });
+    }
+
+    @Override
+    public void setOptimalValue(Double minValue, Double maxValue) {
+        Platform.runLater(() -> this.optimalValueLabel.setText(minValue + " - " + maxValue));
     }
 
     @Override
