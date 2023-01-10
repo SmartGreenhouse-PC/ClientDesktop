@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
-import it.unibo.smartgh.model.Greenhouse;
-import it.unibo.smartgh.model.GreenhouseImpl;
-import it.unibo.smartgh.model.ParameterType;
-import it.unibo.smartgh.model.Plant;
+import it.unibo.smartgh.model.*;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.homepage.HomepageView;
 import it.unibo.smartgh.view.homepage.HomepageViewImpl;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class HomepageControllerImpl implements HomepageController {
@@ -19,7 +17,8 @@ public class HomepageControllerImpl implements HomepageController {
     private static final int PORT = 8890;
     private static final String HOST = "localhost";
     private final static String BASE_PATH = "/clientCommunication";
-    private static final String GREENHOUSE_PATH = "/greenhouse";
+    private static final String GREENHOUSE_PATH = BASE_PATH + "/greenhouse";
+    private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
     private final HomepageView view;
     private final Vertx vertx;
     private final String id;
@@ -38,7 +37,7 @@ public class HomepageControllerImpl implements HomepageController {
 
     private void updateView() {
         WebClient client = WebClient.create(vertx);
-        client.get(PORT, HOST, BASE_PATH + GREENHOUSE_PATH)
+        client.get(PORT, HOST, GREENHOUSE_PATH)
                 .addQueryParam("id", id)
                 .as(BodyCodec.string())
                 .send()
@@ -49,14 +48,25 @@ public class HomepageControllerImpl implements HomepageController {
                     this.unit = plant.getUnitMap();
                     this.view.setPlantInformation(plant.getName(), plant.getDescription(), plant.getImg());
                     this.view.setParameterInfo(ParameterType.BRIGHTNESS, plant.getMinBrightness(),
-                            plant.getMaxBrightness(), this.unit.get("brightness"));
+                            plant.getMaxBrightness(), this.unit.get(ParameterType.BRIGHTNESS.getName()));
                     this.view.setParameterInfo(ParameterType.SOIL_MOISTURE, plant.getMinSoilMoisture(),
-                            plant.getMaxSoilMoisture(), this.unit.get("soilMoisture"));
+                            plant.getMaxSoilMoisture(), this.unit.get(ParameterType.SOIL_MOISTURE.getName()));
                     this.view.setParameterInfo(ParameterType.HUMIDITY, plant.getMinHumidity(), plant.getMaxHumidity()
-                            , this.unit.get("humidity"));
+                            , this.unit.get(ParameterType.HUMIDITY.getName()));
                     this.view.setParameterInfo(ParameterType.TEMPERATURE, plant.getMinTemperature(),
-                            plant.getMaxTemperature(), this.unit.get("temperature"));
+                            plant.getMaxTemperature(), this.unit.get(ParameterType.TEMPERATURE.getName()));
                 })
-                .onFailure(Throwable::printStackTrace);
+                .onFailure(Throwable::printStackTrace)
+                .andThen(res ->
+                        Arrays.stream(ParameterType.values()).forEach(p ->
+                                client.get(PORT, HOST, PARAMETER_PATH)
+                                        .addQueryParam("id", id)
+                                        .addQueryParam("parameterName", p.getName())
+                                        .as(BodyCodec.string())
+                                        .send()
+                                        .onSuccess(r -> {
+                                            final ParameterValue value = gson.fromJson(r.body(), ParameterValueImpl.class);
+                                            this.view.updateParameterValue(p, value.getValue());
+                                        })));
     }
 }
