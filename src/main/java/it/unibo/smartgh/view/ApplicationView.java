@@ -1,8 +1,10 @@
 package it.unibo.smartgh.view;
 
+import java.util.Optional;
+
 public interface ApplicationView {
 
     void display();
 
-    void changeScene(String fxmlFile);
+    Optional<SubView> changeScene(String fxmlFile);
 }

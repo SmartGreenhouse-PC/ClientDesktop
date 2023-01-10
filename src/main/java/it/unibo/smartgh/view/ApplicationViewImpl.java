@@ -3,6 +3,7 @@ package it.unibo.smartgh.view;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,6 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 
 public class ApplicationViewImpl extends Application implements ApplicationView {
@@ -41,12 +43,18 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
     }
 
     @Override
-    public void changeScene(String fxmlFileName) {
+    public Optional<SubView> changeScene(String fxmlFileName) {
         try {
-            final Parent scene = FXMLLoader.load(ClassLoader.getSystemResource("layout/" + fxmlFileName));
+            final FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/layout/" + fxmlFileName));
+            final Parent scene = loader.load();
+            final SubView view = loader.getController();
+            view.setMainView(this);
             this.borderPane.setCenter(scene);
+            BorderPane.setMargin(scene, new Insets(5, 20, 5, 20));
+            return Optional.of(view);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return Optional.empty();
     }
 }
