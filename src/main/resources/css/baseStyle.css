@@ -1,3 +1,12 @@
+.card {
+    -fx-background-color: #F4F4F4;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
+}
+
+.card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 2, 0);}
+
 .normalText {
     -fx-font-size: 14px;
 }
@@ -54,6 +63,7 @@
 .button:hover, .toggle-button:selected, .toggle-button:hover, .outlined-btn:hover {
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 2, 0);
 }
 
 .normalButton {
@@ -63,6 +73,7 @@
 
 .normalButton:hover {
     -fx-background-color: #04B700;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
 }
 
 .alarmButton {
@@ -72,6 +83,7 @@
 
 .alarmButton:hover {
     -fx-background-color: #842029;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
 }
 
 .defaultButton {
@@ -82,6 +94,7 @@
 .defaultButton:hover {
     -fx-text-fill: black;
     -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
 }
 
 .infoButton {
@@ -92,6 +105,7 @@
 .infoButton:hover {
     -fx-font-weight: bold;
     -fx-text-fill: black;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
 }
 
 .toggle-button, .outlined-btn {

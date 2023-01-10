@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="transparentPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.homepage.HomepageViewImpl">
-    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="transparentPane" stylesheets="@../css/baseStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.homepage.HomepageViewImpl">
+    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
         <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
             <VBox.margin>
                 <Insets />
@@ -48,30 +48,45 @@
         </HBox>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Label styleClass="titleText" text="Stato serra:"/>
-            <Label fx:id="statusLabel" styleClass="normalText" text="NORMALE" GridPane.columnIndex="1"/>
-            <Button fx:id="operationButton" graphicTextGap="10.0" mnemonicParsing="false" text="Riepilogo operazioni"
-                    textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+            <Label styleClass="titleText" text="Stato serra:">
+            <GridPane.margin>
+               <Insets right="10.0" />
+            </GridPane.margin></Label>
+            <Label fx:id="statusLabel" styleClass="normalText" text="NORMALE" GridPane.columnIndex="1" />
+            <Button graphicTextGap="10.0" mnemonicParsing="false" onMouseClicked="#operationBtnClicked" text="Riepilogo operazioni" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                 <graphic>
                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/operations.png"/>
+                        <Image url="@../images/operations.png" />
                     </ImageView>
                 </graphic>
                 <GridPane.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </GridPane.margin>
                 <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </padding>
             </Button>
         </GridPane>
+      <GridPane fx:id="parameterGrid" hgap="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="20.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
+        </rowConstraints>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </GridPane>
     </VBox>
     <padding>
         <Insets bottom="5.0" />
