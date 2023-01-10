@@ -24,7 +24,10 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private final static String SOCKET_HOST = "localhost";
     private final static String HOST = "localhost";
     private final static String BASE_PATH = "/clientCommunication";
-    private static final String GREENHOUSE_PATH = "/greenhouse";
+    private static final String GREENHOUSE_PATH = BASE_PATH + "/greenhouse";
+    private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
+    private static final String PARAMETER_HISTORY_PATH = PARAMETER_PATH + "/history";
+
     private final String id;
     private final String parameterName;
     private final Vertx vertx;
@@ -32,6 +35,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private Parameter parameter;
     private Double min;
     private Double max;
+
+    private String unit;
 
     ParameterPageView view;
 
@@ -55,7 +60,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
                         this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
                         try {
-                            this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date").toString()));
+                            this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date")));
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }
@@ -64,7 +69,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                         ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
                         newHistory.add(newParamValue);
                         this.parameter.setHistory(newHistory);
-                        this.view.updateValues(json.getValue("value").toString(), this.status(), this.parameter.getHistoryAsMap());
+                        this.view.updateValues(json.getValue("value").toString() + unit, this.status(), this.parameter.getHistoryAsMap());
                     }
                 }
             });
@@ -84,20 +89,22 @@ public class ParameterPageControllerImpl implements ParameterPageController {
 
     private void updateView(){
         WebClient client = WebClient.create(vertx);
-        client.get(PORT, HOST, BASE_PATH + GREENHOUSE_PATH)
+        client.get(PORT, HOST, GREENHOUSE_PATH)
                 .addQueryParam("id", id)
                 .as(BodyCodec.string())
                 .send()
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
                     greenhouse.setId(this.id);
+                    this.unit = greenhouse.getPlant().getUnitMap().get(this.parameterName);
                     this.min = this.paramOptimalValue("Min", this.parameterName, greenhouse.getPlant());
                     this.max = this.paramOptimalValue("Max", this.parameterName, greenhouse.getPlant());
                 })
                 .onFailure(System.out::println)
                 .andThen( resp -> {
-                    client.get(8895, HOST, "/"+this.parameterName) //TODO correggere URI
+                    client.get(PORT, HOST, PARAMETER_PATH)
                             .addQueryParam("id", id)
+                            .addQueryParam("parameterName", this.parameterName)
                             .as(BodyCodec.string())
                             .send()
                             .onSuccess(r -> {
@@ -106,7 +113,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             })
                             .onFailure(System.out::println)
                             .andThen(resp2 -> {
-                                client.get(PORT, HOST,BASE_PATH + "/parameter/history")
+                                client.get(PORT, HOST,PARAMETER_HISTORY_PATH)
                                         .addQueryParam("limit","10")
                                         .addQueryParam("parameterName", this.parameterName)
                                         .addQueryParam("id", this.id)
@@ -121,9 +128,9 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                             this.parameter.setHistory(history);
                                             String status = this.status();
                                             this.view.initializePage(this.parameterName,
-                                                    this.min.toString(),
-                                                    this.max.toString(),
-                                                    this.parameter.getCurrentValue().getValue().toString(),
+                                                    this.min.toString() + unit,
+                                                    this.max.toString() + unit,
+                                                    this.parameter.getCurrentValue().getValue().toString() + unit,
                                                     this.parameter.getHistoryAsMap(),
                                                     status);
                                         })

@@ -1,5 +1,7 @@
 package it.unibo.smartgh.model;
 
+import java.util.Map;
+
 /**
  * Builder for the plant entity.
  */
@@ -14,8 +16,8 @@ public final class PlantBuilder {
     private Double maxSoilMoisture;
     private Double minHumidity;
     private Double maxHumidity;
-
     private String img;
+    private Map<String, String> units;
 
     /**
      * Constructor for the plant entity
@@ -121,6 +123,17 @@ public final class PlantBuilder {
     }
 
     /**
+     * Add units map
+     * @param units of parameters
+     * @return the plant builder
+     */
+    public PlantBuilder units(Map<String, String> units) {
+        this.units = units;
+        return this;
+    }
+
+
+    /**
      * Create a new Plant entity
      * @return the new plant
      */
@@ -135,8 +148,10 @@ public final class PlantBuilder {
                 this.minSoilMoisture,
                 this.maxSoilMoisture,
                 this.minHumidity,
-                this.maxHumidity
-                );
+                this.maxHumidity,
+                this.units
+        );
     }
 
 }
+

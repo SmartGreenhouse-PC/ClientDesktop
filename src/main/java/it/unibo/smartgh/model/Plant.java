@@ -1,5 +1,7 @@
 package it.unibo.smartgh.model;
 
+import java.util.Map;
+
 /**
  * The Plant entity interface
  */
@@ -58,5 +60,11 @@ public interface Plant {
      * @return the plant image link
      */
     String getImg();
+
+    /**
+     * Get the map of units <parameterName, unit>
+     * @return the map of units <parameterName, unit>
+     */
+    Map<String, String> getUnitMap();
 
 }
