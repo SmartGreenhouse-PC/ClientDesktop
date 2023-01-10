@@ -12,6 +12,8 @@ import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.homepage.HomepageView;
 import it.unibo.smartgh.view.homepage.HomepageViewImpl;
 
+import java.util.Map;
+
 public class HomepageControllerImpl implements HomepageController {
 
     private static final int PORT = 8890;
@@ -22,6 +24,9 @@ public class HomepageControllerImpl implements HomepageController {
     private final Vertx vertx;
     private final String id;
     private final Gson gson;
+    private GreenhouseImpl greenhouse;
+    private Plant plant;
+    private Map<String, String> unit;
 
     public HomepageControllerImpl(HomepageViewImpl homepageView, String id) {
         this.view = homepageView;
@@ -38,16 +43,19 @@ public class HomepageControllerImpl implements HomepageController {
                 .as(BodyCodec.string())
                 .send()
                 .onSuccess(res -> {
-                    Greenhouse greenhouse = gson.fromJson(res.body(), GreenhouseImpl.class);
-                    greenhouse.setId(this.id);
-                    Plant plant = greenhouse.getPlant();
+                    this.greenhouse = gson.fromJson(res.body(), GreenhouseImpl.class);
+                    this.greenhouse.setId(this.id);
+                    this.plant = greenhouse.getPlant();
+                    this.unit = plant.getUnitMap();
                     this.view.setPlantInformation(plant.getName(), plant.getDescription(), plant.getImg());
                     this.view.setParameterInfo(ParameterType.BRIGHTNESS, plant.getMinBrightness(),
-                            plant.getMaxBrightness());
+                            plant.getMaxBrightness(), this.unit.get("brightness"));
                     this.view.setParameterInfo(ParameterType.SOIL_MOISTURE, plant.getMinSoilMoisture(),
-                            plant.getMaxSoilMoisture());
-                    this.view.setParameterInfo(ParameterType.HUMIDITY, plant.getMinHumidity(), plant.getMaxHumidity());
-                    this.view.setParameterInfo(ParameterType.TEMPERATURE, plant.getMinTemperature(), plant.getMaxTemperature());
+                            plant.getMaxSoilMoisture(), this.unit.get("soilMoisture"));
+                    this.view.setParameterInfo(ParameterType.HUMIDITY, plant.getMinHumidity(), plant.getMaxHumidity()
+                            , this.unit.get("humidity"));
+                    this.view.setParameterInfo(ParameterType.TEMPERATURE, plant.getMinTemperature(),
+                            plant.getMaxTemperature(), this.unit.get("temperature"));
                 })
                 .onFailure(Throwable::printStackTrace);
     }
