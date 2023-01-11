@@ -20,4 +20,9 @@ public interface OperationPageView {
      * Clear the table content
      */
     void clearTable();
+
+    /**
+     * Sort the table row according to date
+     */
+    void sortTable();
 }
