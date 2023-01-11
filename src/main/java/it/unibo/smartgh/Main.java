@@ -2,8 +2,8 @@ package it.unibo.smartgh;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
-import it.unibo.smartgh.controller.ParameterPageController;
-import it.unibo.smartgh.controller.ParameterPageControllerImpl;
+import it.unibo.smartgh.controller.OperationPageController;
+import it.unibo.smartgh.controller.OperationPageControllerImpl;
 import it.unibo.smartgh.presentation.GsonUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +20,8 @@ public class Main extends Application {
     private final Gson gson = GsonUtils.createGson();
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader firstPaneLoader = new FXMLLoader(ClassLoader.getSystemResource("layout/parameterPage.fxml"));
-        ParameterPageController controller = new ParameterPageControllerImpl(vertx, ID, gson, "temperature");
+        FXMLLoader firstPaneLoader = new FXMLLoader(ClassLoader.getSystemResource("layout/operationPage.fxml"));
+        OperationPageController controller = new OperationPageControllerImpl(vertx, ID, gson);
         firstPaneLoader.setController(controller.getView());
 
         Parent root = firstPaneLoader.load();
