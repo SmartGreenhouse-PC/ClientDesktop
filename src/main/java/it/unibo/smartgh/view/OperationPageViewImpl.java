@@ -4,12 +4,10 @@ import it.unibo.smartgh.controller.OperationPageController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class OperationPageViewImpl implements OperationPageView {
@@ -56,9 +54,54 @@ public class OperationPageViewImpl implements OperationPageView {
             this.parameterName.setOnAction(this::comboBoxHandler);
 
             this.clearDate();
+            this.disableFutureDays();
+            this.dateFrom.setOnAction(this::dateFromHandler);
+            this.dateTo.setOnAction(this::dateToHandler);
         });
     }
 
+    private void dateFromHandler(ActionEvent actionEvent) {
+        this.dateTo.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(dateFrom.getValue()) < 0 || date.compareTo(LocalDate.now()) > 0);
+            }
+        });
+
+        this.controller.selectRange(this.dateFrom.getValue(), this.dateTo.getValue() == null ? LocalDate.now() : this.dateTo.getValue());
+
+    }
+
+    private void dateToHandler(ActionEvent actionEvent) {
+        this.dateFrom.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(dateTo.getValue()) > 0);
+            }
+        });
+
+        this.controller.selectRange(this.dateFrom.getValue() == null ? this.dateTo.getValue() : this.dateFrom.getValue(), this.dateTo.getValue());
+
+    }
+
+    private void disableFutureDays() {
+        this.dateFrom.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now()) > 0 );
+            }
+        });
+        this.dateTo.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now()) > 0 );
+            }
+        });
+    }
 
     private void comboBoxHandler(ActionEvent event) {
         String value = this.parameterName.getValue();
@@ -76,6 +119,9 @@ public class OperationPageViewImpl implements OperationPageView {
     public void addTableRow(String date, String modality, String parameter, String action) {
         Platform.runLater(() -> {
             this.operationTable.getItems().add(new Row(date, modality, parameter, action));
+
+            this.operationTable.getSortOrder().add(dateColumn);
+            this.operationTable.getSortOrder().add(dateColumn);
         });
     }
 
@@ -86,19 +132,25 @@ public class OperationPageViewImpl implements OperationPageView {
         });
     }
 
+    public void clearCombo() {
+        Platform.runLater(() -> {
+            this.parameterName.getItems().clear();
+        });
+    }
+
     private void clearDate(){
         this.dateFrom.setValue(null);
         this.dateTo.setValue(null);
     }
 
     private void enableDate(){
-        this.dateFrom.setDisable(true);
-        this.dateTo.setDisable(true);
+        this.dateFrom.setDisable(false);
+        this.dateTo.setDisable(false);
     }
 
     private void disableDate(){
-        this.dateFrom.setDisable(false);
-        this.dateTo.setDisable(false);
+        this.dateFrom.setDisable(true);;
+        this.dateTo.setDisable(true);;
     }
 
     public class Row {

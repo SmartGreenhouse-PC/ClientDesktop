@@ -11,6 +11,7 @@ import it.unibo.smartgh.view.OperationPageViewImpl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 public class OperationPageControllerImpl implements OperationPageController {
@@ -70,8 +71,33 @@ public class OperationPageControllerImpl implements OperationPageController {
                     })
                     .onFailure(System.out::println);
         } else {
-            this.initializeView();
+            this.populateTableWithAllOperations();
         }
+    }
+
+    @Override
+    public void selectRange(LocalDate from, LocalDate to) {
+        System.out.println(to);
+        client.get(PORT, HOST, DATE_PATH)
+                .addQueryParam("id", id)
+                .addQueryParam("limit", String.valueOf(LIMIT))
+                .addQueryParam("from", "2023-01-11")
+                .addQueryParam("to", "2023-01-11")
+                .send()
+                .onSuccess(resp -> {
+                    this.view.clearTable();
+                    System.out.println(resp.body().toString());
+                    JsonArray array = resp.body().toJsonArray();
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+                    array.forEach(o -> {
+                        Operation op = gson.fromJson(o.toString(), OperationImpl.class);
+                        this.view.addTableRow(formatter.format(op.getDate()),
+                                op.getModality().toString(),
+                                op.getParameter(),
+                                op.getAction());
+                    });
+                })
+                .onFailure(System.out::println);
     }
 
     private void setSocket() {
@@ -90,23 +116,28 @@ public class OperationPageControllerImpl implements OperationPageController {
                 })
                 .onFailure(System.out::println)
                 .andThen(r -> {
-                    client.get(PORT, HOST, BASE_PATH)
-                            .addQueryParam("id", id)
-                            .addQueryParam("limit", String.valueOf(LIMIT))
-                            .send()
-                            .onSuccess(resp -> {
-                                JsonArray array = resp.body().toJsonArray();
-                                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-                                array.forEach(o -> {
-                                    Operation op = gson.fromJson(o.toString(), OperationImpl.class);
-                                    this.view.addTableRow(formatter.format(op.getDate()),
-                                            op.getModality().toString(),
-                                            op.getParameter(),
-                                            op.getAction());
-                                });
-                            })
-                            .onFailure(System.out::println);
+                    populateTableWithAllOperations();
                 });
 
+    }
+
+    private void populateTableWithAllOperations() {
+        client.get(PORT, HOST, BASE_PATH)
+                .addQueryParam("id", id)
+                .addQueryParam("limit", String.valueOf(LIMIT))
+                .send()
+                .onSuccess(resp -> {
+                    System.out.println(resp.body().toJsonArray());
+                    JsonArray array = resp.body().toJsonArray();
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+                    array.forEach(o -> {
+                        Operation op = gson.fromJson(o.toString(), OperationImpl.class);
+                        this.view.addTableRow(formatter.format(op.getDate()),
+                                op.getModality().toString(),
+                                op.getParameter(),
+                                op.getAction());
+                    });
+                })
+                .onFailure(System.out::println);
     }
 }
