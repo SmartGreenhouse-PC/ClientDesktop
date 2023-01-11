@@ -26,6 +26,8 @@ public class ParameterViewImpl implements ParameterView {
     private ParameterType parameter;
     private String unit;
 
+    private String parameterStatus = "";
+
     public ParameterViewImpl() {
 
     }
@@ -56,8 +58,18 @@ public class ParameterViewImpl implements ParameterView {
     }
 
     @Override
-    public void setCurrentValue(Double value) {
+    public void setCurrentValue(Double value, String status) {
         Platform.runLater(() -> this.currentValueLabel.setText(value + " " + unit));
+        if (!this.parameterStatus.equals(status)) {
+            this.currentValueLabel.getStyleClass().removeAll(this.parameterStatus + "State");
+            this.parameterStatus = status;
+            this.currentValueLabel.getStyleClass().add(this.parameterStatus + "State");
+        }
+    }
+
+    @Override
+    public String getParameterStatus() {
+        return parameterStatus;
     }
 
     @Override

@@ -9,5 +9,7 @@ public interface ParameterView extends SubView {
 
     void setOptimalValue(Double minValue, Double maxValue, String unit);
 
-    void setCurrentValue(Double value);
+    void setCurrentValue(Double value, String status);
+
+    String getParameterStatus();
 }

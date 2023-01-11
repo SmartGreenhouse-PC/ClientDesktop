@@ -16,9 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomepageViewImpl implements HomepageView {
 
@@ -46,17 +45,18 @@ public class HomepageViewImpl implements HomepageView {
     private GridPane parameterGrid;
 
     private final Map<ParameterType, ParameterView> parameterViews;
-    private HomepageController controller;
     private ApplicationView mainView;
+    private String status;
 
     public HomepageViewImpl() {
         this.parameterViews = new HashMap<>();
+        this.status = "";
     }
 
     @FXML
     public void initialize() {
-        this.controller = new HomepageControllerImpl(this, "63af0ae025d55e9840cbc1fa"); //todo id
-        List<String> parameterTypes = ParameterType.parameters();
+        final HomepageController controller = new HomepageControllerImpl(this, "63af0ae025d55e9840cbc1fa"); //todo id
+        final List<String> parameterTypes = ParameterType.parameters();
         for (int i = 0; i < parameterTypes.size() / 2; i++) {
             for (int j = 0; j < 2; j++) {
                 try {
@@ -88,8 +88,8 @@ public class HomepageViewImpl implements HomepageView {
     @Override
     public void setPlantInformation(String name, String description, String img) {
         Platform.runLater(() -> {
-            this.plantNameLabel.setText(name);
-            this.plantDescriptionLabel.setText(description);
+            this.plantNameLabel.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
+            this.plantDescriptionLabel.setText(description.substring(0, 1).toUpperCase() + description.substring(1));
             this.plantImage.setImage(new Image(img));
             this.loadingImg.setVisible(false);
         });
@@ -101,7 +101,21 @@ public class HomepageViewImpl implements HomepageView {
     }
 
     @Override
-    public void updateParameterValue(ParameterType parameterType, Double value) {
-        this.parameterViews.get(parameterType).setCurrentValue(value);
+    public void updateParameterValue(ParameterType parameterType, Double value, String status) {
+        this.parameterViews.get(parameterType).setCurrentValue(value, status);
+        Platform.runLater(() -> {
+            if (!this.status.equals(this.statusLabel.getText())) {
+                Optional<String> isAlarm = this.parameterViews.values().stream().map(ParameterView::getParameterStatus).filter(s -> s.equals("alarm")).findFirst();
+                this.statusLabel.getStyleClass().removeAll(this.status + "State");
+                if (isAlarm.isPresent()) {
+                    this.statusLabel.setText("ALLARME");
+                    this.status = "alarm";
+                } else {
+                    this.statusLabel.setText("NORMALE");
+                    this.status = "normal";
+                }
+                this.statusLabel.getStyleClass().add(this.status + "State");
+            }
+        });
     }
 }

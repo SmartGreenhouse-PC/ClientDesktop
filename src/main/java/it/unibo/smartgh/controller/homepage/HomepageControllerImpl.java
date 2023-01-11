@@ -2,6 +2,8 @@ package it.unibo.smartgh.controller.homepage;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.unibo.smartgh.model.*;
@@ -11,11 +13,14 @@ import it.unibo.smartgh.view.homepage.HomepageViewImpl;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 public class HomepageControllerImpl implements HomepageController {
 
     private static final int PORT = 8890;
+    private final static int SOCKET_PORT = 1234;
     private static final String HOST = "localhost";
+    private final static String SOCKET_HOST = "localhost";
     private final static String BASE_PATH = "/clientCommunication";
     private static final String GREENHOUSE_PATH = BASE_PATH + "/greenhouse";
     private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
@@ -33,6 +38,19 @@ public class HomepageControllerImpl implements HomepageController {
         this.vertx = Vertx.vertx();
         this.gson = GsonUtils.createGson();
         this.updateView();
+        this.setSocket();
+    }
+
+    private void setSocket() {
+        HttpServer server = vertx.createHttpServer();
+        server.webSocketHandler(ctx -> ctx.textMessageHandler(msg -> {
+                JsonObject json = new JsonObject(msg);
+                if (json.getValue("greenhouseId").equals(this.id)) {
+                    Optional<ParameterType> parameter = ParameterType.parameterOf(json.getString("parameterName"));
+                    parameter.ifPresent(parameterType -> this.view.updateParameterValue(parameterType,
+                            json.getDouble("value"), json.getString("status")));
+                }
+           })).listen(SOCKET_PORT, SOCKET_HOST);
     }
 
     private void updateView() {
@@ -51,8 +69,8 @@ public class HomepageControllerImpl implements HomepageController {
                             plant.getMaxBrightness(), this.unit.get(ParameterType.BRIGHTNESS.getName()));
                     this.view.setParameterInfo(ParameterType.SOIL_MOISTURE, plant.getMinSoilMoisture(),
                             plant.getMaxSoilMoisture(), this.unit.get(ParameterType.SOIL_MOISTURE.getName()));
-                    this.view.setParameterInfo(ParameterType.HUMIDITY, plant.getMinHumidity(), plant.getMaxHumidity()
-                            , this.unit.get(ParameterType.HUMIDITY.getName()));
+                    this.view.setParameterInfo(ParameterType.HUMIDITY, plant.getMinHumidity(), plant.getMaxHumidity(),
+                            this.unit.get(ParameterType.HUMIDITY.getName()));
                     this.view.setParameterInfo(ParameterType.TEMPERATURE, plant.getMinTemperature(),
                             plant.getMaxTemperature(), this.unit.get(ParameterType.TEMPERATURE.getName()));
                 })
@@ -66,7 +84,14 @@ public class HomepageControllerImpl implements HomepageController {
                                         .send()
                                         .onSuccess(r -> {
                                             final ParameterValue value = gson.fromJson(r.body(), ParameterValueImpl.class);
-                                            this.view.updateParameterValue(p, value.getValue());
+                                            boolean inRange = true;
+                                            switch (p) {
+                                                case BRIGHTNESS -> inRange = value.getValue() < this.plant.getMaxBrightness() && value.getValue() > this.plant.getMinBrightness();
+                                                case SOIL_MOISTURE -> inRange = value.getValue() < this.plant.getMaxSoilMoisture() && value.getValue() > this.plant.getMinSoilMoisture();
+                                                case HUMIDITY -> inRange = value.getValue() < this.plant.getMaxHumidity() && value.getValue() > this.plant.getMinHumidity();
+                                                case TEMPERATURE -> inRange = value.getValue() < this.plant.getMaxTemperature() && value.getValue() > this.plant.getMinTemperature();
+                                            }
+                                            this.view.updateParameterValue(p, value.getValue(), inRange ? "normal" : "alarm");
                                         })));
     }
 }
