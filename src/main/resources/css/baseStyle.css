@@ -16,8 +16,14 @@
     -fx-font-weight: bold;
 }
 
-.NORMAL {
+.normalState {
     -fx-text-fill: #04B700;
+    -fx-background-color: transparent;
+}
+
+.alarmState {
+    -fx-text-fill: #842029;
+    -fx-background-color: #F8D7DA;
 }
 
 .errorText, .ALARM {
@@ -26,14 +32,6 @@
 
 .descriptionText {
     -fx-font-size: 14px;
-}
-
-.ALARMState {
-    -fx-background-color: #F8D7DA;
-}
-
-.NORMALState {
-    -fx-background-color: transparent;
 }
 
 .alarmPane {
