@@ -7,7 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class OperationPageViewImpl implements OperationPageView {
@@ -47,6 +51,24 @@ public class OperationPageViewImpl implements OperationPageView {
             this.actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
             this.parameterColumn.setCellValueFactory(new PropertyValueFactory<>("parameter"));
             this.modalityColumn.setCellValueFactory(new PropertyValueFactory<>("modality"));
+
+            dateColumn.setComparator(new Comparator<String>(){
+
+                @Override
+                public int compare(String t, String t1) {
+                    try{
+                        SimpleDateFormat format =new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+                        Date d1 = format.parse(t);
+                        Date d2 = format.parse(t1);
+                        return Long.compare(d1.getTime(),d2.getTime());
+                    }catch(ParseException p){
+                        p.printStackTrace();
+                    }
+                    return -1;
+
+                }
+
+            });
 
             this.parameterName.getItems().add("-");
             parameters.forEach(p -> this.parameterName.getItems().add(p));
@@ -119,7 +141,11 @@ public class OperationPageViewImpl implements OperationPageView {
     public void addTableRow(String date, String modality, String parameter, String action) {
         Platform.runLater(() -> {
             this.operationTable.getItems().add(new Row(date, modality, parameter, action));
-
+        });
+    }
+    @Override
+    public void sortTable(){
+        Platform.runLater(() -> {
             this.operationTable.getSortOrder().add(dateColumn);
             this.operationTable.getSortOrder().add(dateColumn);
         });
@@ -129,12 +155,6 @@ public class OperationPageViewImpl implements OperationPageView {
     public void clearTable() {
         Platform.runLater(() -> {
             this.operationTable.getItems().clear();
-        });
-    }
-
-    public void clearCombo() {
-        Platform.runLater(() -> {
-            this.parameterName.getItems().clear();
         });
     }
 
