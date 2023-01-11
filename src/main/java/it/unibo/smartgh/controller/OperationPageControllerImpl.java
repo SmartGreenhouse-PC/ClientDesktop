@@ -32,7 +32,7 @@ public class OperationPageControllerImpl implements OperationPageController {
     private final String id;
     private final Gson gson;
 
-    private OperationPageView view;
+    private final OperationPageView view;
     private final WebClient client;
     private String selectedParameterFilter = "-";
     private LocalDate dateFrom;
@@ -125,7 +125,6 @@ public class OperationPageControllerImpl implements OperationPageController {
                 } else {
                     this.selectRange(this.dateFrom, this.dateTo);
                 }
-                System.out.println("update");
             });
         }).listen(SOCKET_PORT, SOCKET_HOST);
 
@@ -154,6 +153,7 @@ public class OperationPageControllerImpl implements OperationPageController {
                 .addQueryParam("limit", String.valueOf(LIMIT))
                 .send()
                 .onSuccess(resp -> {
+                    this.view.clearTable();
                     JsonArray array = resp.body().toJsonArray();
                     DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
                     array.forEach(o -> {
