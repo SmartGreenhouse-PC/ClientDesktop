@@ -1,6 +1,6 @@
 package it.unibo.smartgh.view.homepage;
 
-import it.unibo.smartgh.model.ParameterType;
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

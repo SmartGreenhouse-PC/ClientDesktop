@@ -1,4 +1,6 @@
-package it.unibo.smartgh.model;
+package it.unibo.smartgh.model.greenhouse;
+
+import it.unibo.smartgh.model.plant.Plant;
 
 /**
  * Implementation of the greenhouse entity.

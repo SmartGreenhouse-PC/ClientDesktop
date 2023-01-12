@@ -1,4 +1,4 @@
-package it.unibo.smartgh.model;
+package it.unibo.smartgh.model.parameter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;

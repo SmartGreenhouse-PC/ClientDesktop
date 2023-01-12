@@ -1,7 +1,11 @@
 package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.*;
-import it.unibo.smartgh.model.*;
+import it.unibo.smartgh.model.greenhouse.Greenhouse;
+import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.model.greenhouse.Modality;
+import it.unibo.smartgh.model.plant.Plant;
+import it.unibo.smartgh.model.plant.PlantImpl;
 
 import java.lang.reflect.Type;
 

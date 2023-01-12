@@ -1,9 +1,9 @@
 package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.*;
-import it.unibo.smartgh.model.Modality;
-import it.unibo.smartgh.model.Operation;
-import it.unibo.smartgh.model.OperationImpl;
+import it.unibo.smartgh.model.greenhouse.Modality;
+import it.unibo.smartgh.model.operation.Operation;
+import it.unibo.smartgh.model.operation.OperationImpl;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;

@@ -1,8 +1,8 @@
 package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.*;
-import it.unibo.smartgh.model.ParameterValue;
-import it.unibo.smartgh.model.ParameterValueImpl;
+import it.unibo.smartgh.model.parameter.ParameterValue;
+import it.unibo.smartgh.model.parameter.ParameterValueImpl;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;

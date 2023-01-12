@@ -2,8 +2,8 @@ package it.unibo.smartgh;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
-import it.unibo.smartgh.controller.OperationPageController;
-import it.unibo.smartgh.controller.OperationPageControllerImpl;
+import it.unibo.smartgh.controller.operation.OperationPageController;
+import it.unibo.smartgh.controller.operation.OperationPageControllerImpl;
 import it.unibo.smartgh.presentation.GsonUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,6 +1,6 @@
-package it.unibo.smartgh.view;
+package it.unibo.smartgh.view.operation;
 
-import it.unibo.smartgh.controller.OperationPageController;
+import it.unibo.smartgh.controller.operation.OperationPageController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

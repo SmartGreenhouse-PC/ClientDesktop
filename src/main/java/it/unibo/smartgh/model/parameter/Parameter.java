@@ -1,6 +1,5 @@
-package it.unibo.smartgh.model;
+package it.unibo.smartgh.model.parameter;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
