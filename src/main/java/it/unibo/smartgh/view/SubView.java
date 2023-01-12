@@ -2,5 +2,5 @@ package it.unibo.smartgh.view;
 
 public interface SubView {
 
-    void setMainView(ApplicationView mainView);
+    void initView(ApplicationView mainView, String id);
 }

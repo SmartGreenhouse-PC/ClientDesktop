@@ -17,6 +17,8 @@ import java.util.Optional;
 
 public class ApplicationViewImpl extends Application implements ApplicationView {
 
+    private final static String ID = "63af0ae025d55e9840cbc1fa";
+
     @FXML
     private BorderPane borderPane;
 
@@ -48,7 +50,7 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
             final FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/layout/" + fxmlFileName));
             final Parent scene = loader.load();
             final SubView view = loader.getController();
-            view.setMainView(this);
+            view.initView(this, ID);
             this.borderPane.setCenter(scene);
             BorderPane.setMargin(scene, new Insets(5, 20, 5, 20));
             return Optional.of(view);

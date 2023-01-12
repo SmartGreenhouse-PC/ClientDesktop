@@ -1,6 +1,8 @@
 package it.unibo.smartgh.view.operation;
 
 import it.unibo.smartgh.controller.operation.OperationPageController;
+import it.unibo.smartgh.controller.operation.OperationPageControllerImpl;
+import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 public class OperationPageViewImpl implements OperationPageView {
-    private final OperationPageController controller;
+    private OperationPageController controller;
     @FXML
     private TableView operationTable;
 
@@ -39,10 +41,8 @@ public class OperationPageViewImpl implements OperationPageView {
 
     @FXML
     private DatePicker dateTo;
-
-    public OperationPageViewImpl(OperationPageController controller) {
-        this.controller = controller;
-    }
+    private ApplicationView mainView;
+    private String id;
 
     @Override
     public void initializeView(List<String> parameters) {
@@ -171,6 +171,13 @@ public class OperationPageViewImpl implements OperationPageView {
     private void disableDate(){
         this.dateFrom.setDisable(true);;
         this.dateTo.setDisable(true);;
+    }
+
+    @Override
+    public void initView(ApplicationView mainView, String id) {
+        this.mainView = mainView;
+        this.id = id;
+        this.controller = new OperationPageControllerImpl(this, id);
     }
 
     public class Row {

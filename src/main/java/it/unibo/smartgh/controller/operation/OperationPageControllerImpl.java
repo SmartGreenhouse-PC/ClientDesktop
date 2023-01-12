@@ -11,6 +11,7 @@ import it.unibo.smartgh.model.greenhouse.Greenhouse;
 import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.model.operation.Operation;
 import it.unibo.smartgh.model.operation.OperationImpl;
+import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.operation.OperationPageView;
 import it.unibo.smartgh.view.operation.OperationPageViewImpl;
 
@@ -41,11 +42,11 @@ public class OperationPageControllerImpl implements OperationPageController {
     private LocalDate dateFrom;
     private LocalDate dateTo;
 
-    public OperationPageControllerImpl(Vertx vertx, String id, Gson gson) {
-        this.vertx = vertx;
+    public OperationPageControllerImpl(OperationPageViewImpl operationPageView, String id) {
+        this.view = operationPageView;
         this.id = id;
-        this.gson = gson;
-        this.view = new OperationPageViewImpl(this);
+        this.vertx = Vertx.vertx();
+        this.gson = GsonUtils.createGson();
         this.client = WebClient.create(vertx);
         this.initializeView();
         this.setSocket();

@@ -20,16 +20,16 @@ public class Main extends Application {
     private final Gson gson = GsonUtils.createGson();
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader firstPaneLoader = new FXMLLoader(ClassLoader.getSystemResource("layout/operationPage.fxml"));
-        OperationPageController controller = new OperationPageControllerImpl(vertx, ID, gson);
-        firstPaneLoader.setController(controller.getView());
-
-        Parent root = firstPaneLoader.load();
-        final Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-        // Stage configuration
-        stage.setTitle("JavaFX - Complete Example");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader firstPaneLoader = new FXMLLoader(ClassLoader.getSystemResource("layout/operationPage.fxml"));
+//        OperationPageController controller = new OperationPageControllerImpl(vertx, ID, gson);
+//        firstPaneLoader.setController(controller.getView());
+//
+//        Parent root = firstPaneLoader.load();
+//        final Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+//        // Stage configuration
+//        stage.setTitle("JavaFX - Complete Example");
+//        stage.setScene(scene);
+//        stage.show();
 
 
     }
