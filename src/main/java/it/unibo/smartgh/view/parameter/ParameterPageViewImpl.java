@@ -94,6 +94,11 @@ public class ParameterPageViewImpl implements ParameterPageView {
         });
     }
 
+    @FXML
+    public void backButtonClicked() {
+        this.mainView.changeScene("homepage.fxml");
+    }
+
     private void setHistory(Map<String, Double> history, String color) {
         areaChart.getData().clear();
         table.getItems().clear();
