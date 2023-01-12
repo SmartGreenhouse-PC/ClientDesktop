@@ -1,4 +1,4 @@
-package it.unibo.smartgh.controller;
+package it.unibo.smartgh.controller.operation;
 
 import com.google.gson.Gson;
 import io.vertx.core.http.HttpServer;
@@ -7,9 +7,12 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
-import it.unibo.smartgh.model.*;
-import it.unibo.smartgh.view.OperationPageView;
-import it.unibo.smartgh.view.OperationPageViewImpl;
+import it.unibo.smartgh.model.greenhouse.Greenhouse;
+import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.model.operation.Operation;
+import it.unibo.smartgh.model.operation.OperationImpl;
+import it.unibo.smartgh.view.operation.OperationPageView;
+import it.unibo.smartgh.view.operation.OperationPageViewImpl;
 
 import java.text.DateFormat;
 

@@ -1,4 +1,6 @@
-package it.unibo.smartgh.model;
+package it.unibo.smartgh.model.operation;
+
+import it.unibo.smartgh.model.greenhouse.Modality;
 
 import java.util.Date;
 

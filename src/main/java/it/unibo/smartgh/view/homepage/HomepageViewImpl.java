@@ -2,7 +2,7 @@ package it.unibo.smartgh.view.homepage;
 
 import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
-import it.unibo.smartgh.model.ParameterType;
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,7 +17,6 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class HomepageViewImpl implements HomepageView {
 

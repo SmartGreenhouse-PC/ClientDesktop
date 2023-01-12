@@ -1,4 +1,4 @@
-package it.unibo.smartgh.model;
+package it.unibo.smartgh.model.plant;
 
 import java.util.Map;
 

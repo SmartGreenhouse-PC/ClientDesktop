@@ -1,7 +1,8 @@
 package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.*;
-import it.unibo.smartgh.model.*;
+import it.unibo.smartgh.model.plant.Plant;
+import it.unibo.smartgh.model.plant.PlantBuilder;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

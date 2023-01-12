@@ -1,4 +1,4 @@
-package it.unibo.smartgh.view;
+package it.unibo.smartgh.view.operation;
 
 import java.util.List;
 

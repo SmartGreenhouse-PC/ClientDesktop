@@ -1,7 +1,6 @@
-package it.unibo.smartgh.controller;
+package it.unibo.smartgh.controller.parameter;
 
-import io.vertx.core.Future;
-import it.unibo.smartgh.view.ParameterPageView;
+import it.unibo.smartgh.view.parameter.ParameterPageView;
 
 public interface ParameterPageController {
     /**

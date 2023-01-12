@@ -1,4 +1,4 @@
-package it.unibo.smartgh.view;
+package it.unibo.smartgh.view.parameter;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
