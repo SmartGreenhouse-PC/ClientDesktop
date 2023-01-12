@@ -14,6 +14,7 @@ import it.unibo.smartgh.model.parameter.ParameterImpl;
 import it.unibo.smartgh.model.parameter.ParameterValue;
 import it.unibo.smartgh.model.parameter.ParameterValueImpl;
 import it.unibo.smartgh.model.plant.Plant;
+import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
 import it.unibo.smartgh.view.parameter.ParameterPageViewImpl;
 import java.lang.reflect.InvocationTargetException;
@@ -34,10 +35,10 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
     private static final String PARAMETER_HISTORY_PATH = PARAMETER_PATH + "/history";
 
-    private final String id;
-    private final String parameterName;
     private final Vertx vertx;
     private final Gson gson;
+    private final String id;
+    private String parameterName;
     private Parameter parameter;
     private Double min;
     private Double max;
@@ -46,12 +47,21 @@ public class ParameterPageControllerImpl implements ParameterPageController {
 
     ParameterPageView view;
 
-    public ParameterPageControllerImpl(Vertx vertx, String id, Gson gson, String parameter) {
-        this.gson = gson;
+    public ParameterPageControllerImpl(ParameterPageView parameterPageView, String id) {
+        this.view = parameterPageView;
         this.id = id;
+        this.gson = GsonUtils.createGson();
+        this.vertx = Vertx.vertx();
+    }
+
+    @Override
+    public ParameterPageView getView() {
+        return this.view;
+    }
+
+    @Override
+    public void setParameter(String parameter) {
         this.parameterName = parameter;
-        this.vertx = vertx;
-        this.view = new ParameterPageViewImpl();
         this.updateView();
         this.setSocket();
     }
@@ -81,11 +91,6 @@ public class ParameterPageControllerImpl implements ParameterPageController {
             });
         }).listen(SOCKET_PORT, SOCKET_HOST);
 
-    }
-
-    @Override
-    public ParameterPageView getView() {
-        return this.view;
     }
 
     private String status(){
@@ -147,8 +152,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     }
 
     private Double paramOptimalValue(String type, String param, Plant plant){
-        String original = param.toLowerCase();
-        String paramName = original.substring(0, 1).toUpperCase() + original.substring(1);
+        String paramName = param.substring(0, 1).toUpperCase() + param.substring(1);
         try {
             Class<?> c = Class.forName(Plant.class.getName());
             return (Double) c.getDeclaredMethod("get"+type+paramName).invoke(plant);

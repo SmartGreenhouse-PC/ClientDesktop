@@ -1,8 +1,10 @@
 package it.unibo.smartgh.view.parameter;
 
+import it.unibo.smartgh.view.SubView;
+
 import java.util.Map;
 
-public interface ParameterPageView {
+public interface ParameterPageView extends SubView {
     /**
      * Set the current value label
      *
@@ -11,6 +13,8 @@ public interface ParameterPageView {
      * @param status parameter status
      */
     void updateValues(String value, String status, Map<String, Double> history);
+
+    void setParameter(String parameter);
 
     /**
      * Initialize the parameter page
