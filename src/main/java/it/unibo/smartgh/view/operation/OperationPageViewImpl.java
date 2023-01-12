@@ -82,6 +82,11 @@ public class OperationPageViewImpl implements OperationPageView {
         });
     }
 
+    @FXML
+    public void backBtnClicked() {
+        this.mainView.changeScene("homepage.fxml");
+    }
+
     private void dateFromHandler(ActionEvent actionEvent) {
         this.dateTo.setDayCellFactory(param -> new DateCell() {
             @Override
