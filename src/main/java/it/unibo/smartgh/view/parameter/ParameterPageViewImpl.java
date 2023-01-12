@@ -1,5 +1,8 @@
 package it.unibo.smartgh.view.parameter;
 
+import it.unibo.smartgh.controller.parameter.ParameterPageController;
+import it.unibo.smartgh.controller.parameter.ParameterPageControllerImpl;
+import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -34,6 +37,7 @@ public class ParameterPageViewImpl implements ParameterPageView {
 
     @FXML
     private NumberAxis yAxis ;
+
     @FXML
     private AreaChart<CategoryAxis, NumberAxis> areaChart;
 
@@ -46,7 +50,9 @@ public class ParameterPageViewImpl implements ParameterPageView {
     @FXML
     private TableColumn valueColumn;
 
-
+    private ApplicationView mainView;
+    private String id;
+    private ParameterPageController controller;
 
 
     @Override
@@ -56,6 +62,18 @@ public class ParameterPageViewImpl implements ParameterPageView {
             this.setColorByStatus(status);
             this.setHistory(history, status.equals("normal") ? "6DB960" : "D90000");
         });
+    }
+
+    @Override
+    public void initView(ApplicationView mainView, String id) {
+        this.mainView = mainView;
+        this.id = id;
+        this.controller = new ParameterPageControllerImpl(this, id);
+    }
+
+    @Override
+    public void setParameter(String parameter) {
+        this.controller.setParameter(parameter);
     }
 
     @Override

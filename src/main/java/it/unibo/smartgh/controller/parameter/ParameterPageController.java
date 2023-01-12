@@ -8,4 +8,6 @@ public interface ParameterPageController {
      * @return the parameter page view
      */
     ParameterPageView getView();
+
+    void setParameter(String parameter);
 }

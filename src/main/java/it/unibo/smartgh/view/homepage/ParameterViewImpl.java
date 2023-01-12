@@ -2,11 +2,17 @@ package it.unibo.smartgh.view.homepage;
 
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
+import it.unibo.smartgh.view.SubView;
+import it.unibo.smartgh.view.parameter.ParameterPageView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Optional;
 
 public class ParameterViewImpl implements ParameterView {
 
@@ -29,18 +35,12 @@ public class ParameterViewImpl implements ParameterView {
     private String parameterStatus = "";
     private String id;
 
-    public ParameterViewImpl() {
-
-    }
-
-    @FXML
-    public void initialize() {
-        //todo
-    }
-
     @FXML
     public void parameterClicked() {
-        this.mainView.changeScene("parameterPage.fxml");
+        Optional<SubView> parameterPage = this.mainView.changeScene("parameterPage.fxml");
+        if (parameterPage.isPresent() && parameterPage.get() instanceof ParameterPageView) {
+            ((ParameterPageView) parameterPage.get()).setParameter(this.parameter.getName());
+        }
     }
 
     @Override
