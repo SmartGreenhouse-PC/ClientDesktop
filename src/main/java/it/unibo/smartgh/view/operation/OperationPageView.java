@@ -1,8 +1,10 @@
 package it.unibo.smartgh.view.operation;
 
+import it.unibo.smartgh.view.SubView;
+
 import java.util.List;
 
-public interface OperationPageView {
+public interface OperationPageView extends SubView {
     /**
      * Insert a new record into the table
      * @param date of the operation

@@ -45,7 +45,9 @@ public class HomepageViewImpl implements HomepageView {
 
     private final Map<ParameterType, ParameterView> parameterViews;
     private ApplicationView mainView;
+    private HomepageControllerImpl controller;
     private String status;
+    private String id;
 
     public HomepageViewImpl() {
         this.parameterViews = new HashMap<>();
@@ -54,7 +56,6 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void initialize() {
-        final HomepageController controller = new HomepageControllerImpl(this, "63af0ae025d55e9840cbc1fa"); //todo id
         final List<String> parameterTypes = ParameterType.parameters();
         for (int i = 0; i < parameterTypes.size() / 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -75,13 +76,15 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void operationBtnClicked() {
-        this.mainView.changeScene("homepage_parameter.fxml"); //todo
+        this.mainView.changeScene("operationPage.fxml");
     }
 
     @Override
-    public void setMainView(ApplicationView mainView) {
+    public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
-        this.parameterViews.values().forEach(p -> p.setMainView(mainView));
+        this.id = id;
+        this.parameterViews.values().forEach(p -> p.initView(mainView, this.id));
+        this.controller = new HomepageControllerImpl(this, this.id);
     }
 
     @Override

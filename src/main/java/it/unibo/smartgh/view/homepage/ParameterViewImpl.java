@@ -27,6 +27,7 @@ public class ParameterViewImpl implements ParameterView {
     private String unit;
 
     private String parameterStatus = "";
+    private String id;
 
     public ParameterViewImpl() {
 
@@ -73,7 +74,8 @@ public class ParameterViewImpl implements ParameterView {
     }
 
     @Override
-    public void setMainView(ApplicationView mainView) {
+    public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
+        this.id = id;
     }
 }
