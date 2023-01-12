@@ -90,10 +90,22 @@ public class HomepageControllerImpl implements HomepageController {
                                             final ParameterValue value = gson.fromJson(r.body(), ParameterValueImpl.class);
                                             boolean inRange = true;
                                             switch (p) {
-                                                case BRIGHTNESS -> inRange = value.getValue() < this.plant.getMaxBrightness() && value.getValue() > this.plant.getMinBrightness();
-                                                case SOIL_MOISTURE -> inRange = value.getValue() < this.plant.getMaxSoilMoisture() && value.getValue() > this.plant.getMinSoilMoisture();
-                                                case HUMIDITY -> inRange = value.getValue() < this.plant.getMaxHumidity() && value.getValue() > this.plant.getMinHumidity();
-                                                case TEMPERATURE -> inRange = value.getValue() < this.plant.getMaxTemperature() && value.getValue() > this.plant.getMinTemperature();
+                                                case BRIGHTNESS: {
+                                                    inRange = value.getValue() < this.plant.getMaxBrightness() && value.getValue() > this.plant.getMinBrightness();
+                                                    break;
+                                                }
+                                                case SOIL_MOISTURE: {
+                                                    inRange = value.getValue() < this.plant.getMaxSoilMoisture() && value.getValue() > this.plant.getMinSoilMoisture();
+                                                    break;
+                                                }
+                                                case HUMIDITY: {
+                                                    inRange = value.getValue() < this.plant.getMaxHumidity() && value.getValue() > this.plant.getMinHumidity();
+                                                    break;
+                                                }
+                                                case TEMPERATURE: {
+                                                    inRange = value.getValue() < this.plant.getMaxTemperature() && value.getValue() > this.plant.getMinTemperature();
+                                                    break;
+                                                }
                                             }
                                             this.view.updateParameterValue(p, value.getValue(), inRange ? "normal" : "alarm");
                                         })));
