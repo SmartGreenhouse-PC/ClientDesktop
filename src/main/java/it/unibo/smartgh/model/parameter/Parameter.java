@@ -7,6 +7,7 @@ import java.util.Map;
  * Interface that represent a parameter
  */
 public interface Parameter {
+
     /**
      * Get the parameter name
      * @return the parameter name
@@ -30,6 +31,7 @@ public interface Parameter {
      * @param history of the parameter values
      */
     void setHistory(List<ParameterValue> history);
+
     /**
      * Get the parameter history as map (date, value)
      * @return the history as map

@@ -13,7 +13,6 @@ import it.unibo.smartgh.model.parameter.*;
 import it.unibo.smartgh.model.plant.Plant;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
-import it.unibo.smartgh.view.parameter.ParameterPageViewImpl;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The implementation of {@link ParameterPageController} interface.
+ */
 public class ParameterPageControllerImpl implements ParameterPageController {
     private final static int PORT = 8890;
     private final static int SOCKET_PORT = 1234;
@@ -39,11 +40,15 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private Parameter parameter;
     private Double min;
     private Double max;
-
     private String unit;
+    private final ParameterPageView view;
 
-    ParameterPageView view;
-
+    /**
+     * Instantiates a new Parameter page controller.
+     *
+     * @param parameterPageView the parameter page view
+     * @param id                the id of the greenhouse
+     */
     public ParameterPageControllerImpl(ParameterPageView parameterPageView, String id) {
         this.view = parameterPageView;
         this.id = id;
@@ -67,6 +72,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
         HttpServer server = vertx.createHttpServer();
         server.webSocketHandler(ctx -> {
             ctx.textMessageHandler(msg -> {
+                System.out.println(msg);
                 JsonObject json = new JsonObject(msg);
                 if(json.getValue("greenhouseId").equals(this.id)) {
                     if (json.getValue("parameterName").equals(parameterType.getName())) {
