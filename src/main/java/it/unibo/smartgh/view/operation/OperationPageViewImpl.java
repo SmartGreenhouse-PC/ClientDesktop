@@ -16,7 +16,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The implementation of the Operation page view.
+ */
 public class OperationPageViewImpl implements OperationPageView {
+
     private OperationPageController controller;
     @FXML
     private TableView operationTable;
@@ -185,12 +189,22 @@ public class OperationPageViewImpl implements OperationPageView {
         this.controller = new OperationPageControllerImpl(this, id);
     }
 
+    /**
+     * A class that represents a single Row in the operation table.
+     */
     public class Row {
         private final String date;
         private final String modality;
         private final String parameter;
         private final String action;
 
+        /**
+         * Instantiates a new Row.
+         * @param date      the date of the operation
+         * @param modality  the modality of the operation
+         * @param parameter the parameter of the operation
+         * @param action    the action of the operation
+         */
         public Row(String date, String modality, String parameter, String action) {
             this.date = date;
             this.modality = modality;
@@ -198,18 +212,34 @@ public class OperationPageViewImpl implements OperationPageView {
             this.action = action;
         }
 
+        /**
+         * Gets date of the operation.
+         * @return the date
+         */
         public String getDate() {
             return date;
         }
 
+        /**
+         * Gets modality of the operation.
+         * @return the modality
+         */
         public String getModality() {
             return modality;
         }
 
+        /**
+         * Gets parameter of the operation.
+         * @return the parameter
+         */
         public String getParameter() {
             return parameter;
         }
 
+        /**
+         * Gets action of the operation.
+         * @return the action
+         */
         public String getAction() {
             return action;
         }

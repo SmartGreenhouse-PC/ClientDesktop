@@ -5,7 +5,11 @@ import it.unibo.smartgh.view.operation.OperationPageView;
 
 import java.time.LocalDate;
 
+/**
+ * The interface of the operation page controller.
+ */
 public interface OperationPageController {
+
     /**
      * Get the parameter page view
      * @return the parameter page view
