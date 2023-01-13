@@ -12,6 +12,9 @@ import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
+/**
+ * The implementation of {@link HomepageParameterView} interface.
+ */
 public class HomepageParameterViewImpl implements HomepageParameterView {
 
     @FXML
