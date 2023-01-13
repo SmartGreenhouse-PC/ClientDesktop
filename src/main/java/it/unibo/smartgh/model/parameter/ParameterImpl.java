@@ -5,11 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The implementation of {@link Parameter} interface.
+ */
 public class ParameterImpl implements Parameter{
     private final String name;
     private final ParameterValue currentValue;
     private List<ParameterValue> history;
 
+    /**
+     * Instantiates a new Parameter.
+     * @param name         the name of the parameter
+     * @param currentValue the current value of the parameter
+     */
     public ParameterImpl(String name, ParameterValue currentValue) {
         this.name = name;
         this.currentValue = currentValue;
@@ -31,10 +39,12 @@ public class ParameterImpl implements Parameter{
         return this.history;
     }
 
+    @Override
     public void setHistory(List<ParameterValue> history){
         this.history = history;
     }
 
+    @Override
     public Map<String, Double> getHistoryAsMap(){
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         Map<String, Double> map = this.getHistory()

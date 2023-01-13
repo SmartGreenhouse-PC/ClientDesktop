@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * The implementation of the view of Parameter page.
+ */
 public class ParameterPageViewImpl implements ParameterPageView {
 
     @FXML
@@ -126,18 +129,35 @@ public class ParameterPageViewImpl implements ParameterPageView {
         this.currentValue.getStyleClass().add(status + "State");
     }
 
+    /**
+     * A class that represent a single parameter value row.
+     */
     public class Row {
         private final String date;
         private final Double value;
+
+        /**
+         * Instantiates a new parameter Row.
+         * @param date  the date of the parameter
+         * @param value the value of the parameter
+         */
         public Row(String date, Double value) {
             this.date = date;
             this.value = value;
         }
 
+        /**
+         * Gets the date of the row.
+         * @return the parameter date
+         */
         public String getDate() {
             return date;
         }
 
+        /**
+         * Gets value of the row.
+         * @return the parameter value
+         */
         public Double getValue() {
             return value;
         }

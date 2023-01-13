@@ -6,11 +6,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The enum that represents the possible types of Parameter.
+ */
 public enum ParameterType {
 
+    /**
+     * The brightness parameter.
+     */
     BRIGHTNESS("Luminosità", "brightness"),
+
+    /**
+     * The soil moisture parameter.
+     */
     SOIL_MOISTURE("Umidità del suolo", "soilMoisture"),
+
+    /**
+     * The humidity parameter.
+     */
     HUMIDITY("Umidità dell'aria", "humidity"),
+
+    /**
+     * The temperature parameter.
+     */
     TEMPERATURE("Temperatura", "temperature");
 
     private final String title;
@@ -21,22 +39,43 @@ public enum ParameterType {
         this.name = name;
     }
 
+    /**
+     * Gets the parameter's title.
+     * @return the title of the parameter
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Gets the parameter's name.
+     * @return the name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Gets the parameter's image path.
+     * @return the image path
+     */
     public String getImagePath() {
         return "/images/" + this.name + ".png";
     }
 
+    /**
+     * Returns an optional of parameter object from the given parameterName.
+     * @param parameterName the parameter name
+     * @return the optional of the parameter
+     */
     public static Optional<ParameterType> parameterOf(String parameterName) {
         return Arrays.stream(ParameterType.values()).filter(p -> p.name.equals(parameterName)).findFirst();
     }
 
+    /**
+     * Returns all parameters as a list.
+     * @return the list of parameters
+     */
     public static List<String> parameters() {
         return Arrays.stream(values()).map(ParameterType::getName).collect(Collectors.toList());
     }
