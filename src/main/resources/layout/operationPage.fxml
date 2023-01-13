@@ -11,60 +11,55 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1000.0" prefWidth="600.0" spacing="10.0"
-      xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.unibo.smartgh.view.operation.OperationPageViewImpl">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1000.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.operation.OperationPageViewImpl">
    <Label styleClass="titleText" text="Riepilogo operazioni">
       <font>
-         <Font name="System Bold" size="24.0"/>
+         <Font name="System Bold" size="24.0" />
       </font>
    </Label>
    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
       <VBox.margin>
-         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
       </VBox.margin>
-      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-            spacing="5.0" VBox.vgrow="ALWAYS">
-         <Label styleClass="normalText" text="Parameter: " HBox.hgrow="ALWAYS"/>
-         <ComboBox fx:id="parameterName" HBox.hgrow="ALWAYS"/>
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+         <Label styleClass="normalText" text="Parameter: " HBox.hgrow="ALWAYS" />
+         <ComboBox fx:id="parameterName" styleClass="normalText" HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox alignment="CENTER_LEFT">
          <HBox alignment="CENTER_LEFT" spacing="5.0" HBox.hgrow="ALWAYS">
             <HBox.margin>
-               <Insets bottom="10.0" right="10.0" top="10.0"/>
+               <Insets bottom="10.0" right="10.0" top="10.0" />
             </HBox.margin>
             <Label styleClass="normalText" text="Da" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </Label>
-            <DatePicker fx:id="dateFrom" editable="false"/>
+            <DatePicker fx:id="dateFrom" editable="false" styleClass="normalText" />
          </HBox>
          <HBox alignment="CENTER_LEFT" spacing="5.0" HBox.hgrow="ALWAYS">
             <HBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </HBox.margin>
             <Label styleClass="normalText" text="A">
                <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </Label>
-            <DatePicker fx:id="dateTo" editable="false"/>
+            <DatePicker fx:id="dateTo" editable="false" styleClass="normalText" />
          </HBox>
       </HBox>
    </VBox>
-   <TableView fx:id="operationTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-              VBox.vgrow="ALWAYS">
+   <TableView fx:id="operationTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="normalText" VBox.vgrow="ALWAYS">
       <columns>
-         <TableColumn fx:id="dateColumn" minWidth="-1.0" prefWidth="-1.0" text="Data e ora"/>
-         <TableColumn fx:id="parameterColumn" minWidth="-1.0" prefWidth="-1.0" styleClass="transparentPane"
-                      text="Parametro"/>
-         <TableColumn fx:id="actionColumn" minWidth="-1.0" prefWidth="-1.0" text="Azione"/>
-         <TableColumn fx:id="modalityColumn" minWidth="-1.0" prefWidth="-1.0" text="Modalita"/>
+         <TableColumn fx:id="dateColumn" minWidth="-1.0" prefWidth="-1.0" text="Data e ora" />
+         <TableColumn fx:id="parameterColumn" minWidth="-1.0" prefWidth="-1.0" styleClass="transparentPane" text="Parametro" />
+         <TableColumn fx:id="actionColumn" minWidth="-1.0" prefWidth="-1.0" text="Operazione" />
+         <TableColumn fx:id="modalityColumn" minWidth="-1.0" prefWidth="-1.0" text="Modalità" />
       </columns>
       <columnResizePolicy>
-         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
       </columnResizePolicy>
    </TableView>
-   <Button mnemonicParsing="false" onMouseClicked="#backBtnClicked" text="Indietro"/>
+   <Button mnemonicParsing="false" onMouseClicked="#backBtnClicked" text="Indietro" />
 </VBox>
