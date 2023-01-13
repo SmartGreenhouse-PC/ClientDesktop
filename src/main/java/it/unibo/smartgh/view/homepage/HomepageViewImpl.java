@@ -1,6 +1,5 @@
 package it.unibo.smartgh.view.homepage;
 
-import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
@@ -43,7 +42,7 @@ public class HomepageViewImpl implements HomepageView {
     @FXML
     private GridPane parameterGrid;
 
-    private final Map<ParameterType, ParameterView> parameterViews;
+    private final Map<ParameterType, HomepageParameterView> parameterViews;
     private ApplicationView mainView;
     private HomepageControllerImpl controller;
     private String status;
@@ -62,7 +61,7 @@ public class HomepageViewImpl implements HomepageView {
                 try {
                     final FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/layout/homepage_parameter.fxml"));
                     final Parent parameter = loader.load();
-                    final ParameterView view = loader.getController();
+                    final HomepageParameterView view = loader.getController();
                     final ParameterType type = ParameterType.values()[i + (j * 2)];
                     view.setParameter(type);
                     this.parameterViews.put(ParameterType.values()[i + (j * 2)], view);
@@ -107,7 +106,7 @@ public class HomepageViewImpl implements HomepageView {
         this.parameterViews.get(parameterType).setCurrentValue(value, status);
         Platform.runLater(() -> {
             if (!this.status.equals(this.statusLabel.getText())) {
-                Optional<String> isAlarm = this.parameterViews.values().stream().map(ParameterView::getParameterStatus).filter(s -> s.equals("alarm")).findFirst();
+                Optional<String> isAlarm = this.parameterViews.values().stream().map(HomepageParameterView::getParameterStatus).filter(s -> s.equals("alarm")).findFirst();
                 this.statusLabel.getStyleClass().removeAll(this.status + "State");
                 if (isAlarm.isPresent()) {
                     this.statusLabel.setText("ALLARME");
