@@ -30,7 +30,7 @@ public enum ParameterType {
     }
 
     public String getImagePath() {
-        return this.name + ".png";
+        return "/images/" + this.name + ".png";
     }
 
     public static Optional<ParameterType> parameterOf(String parameterName) {

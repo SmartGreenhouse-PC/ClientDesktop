@@ -9,10 +9,7 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.unibo.smartgh.model.greenhouse.Greenhouse;
 import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
-import it.unibo.smartgh.model.parameter.Parameter;
-import it.unibo.smartgh.model.parameter.ParameterImpl;
-import it.unibo.smartgh.model.parameter.ParameterValue;
-import it.unibo.smartgh.model.parameter.ParameterValueImpl;
+import it.unibo.smartgh.model.parameter.*;
 import it.unibo.smartgh.model.plant.Plant;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
@@ -38,7 +35,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private final Vertx vertx;
     private final Gson gson;
     private final String id;
-    private String parameterName;
+    private ParameterType parameterType;
     private Parameter parameter;
     private Double min;
     private Double max;
@@ -60,8 +57,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     }
 
     @Override
-    public void setParameter(String parameter) {
-        this.parameterName = parameter;
+    public void setParameter(ParameterType parameter) {
+        this.parameterType = parameter;
         this.updateView();
         this.setSocket();
     }
@@ -72,7 +69,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
             ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
                 if(json.getValue("greenhouseId").equals(this.id)) {
-                    if (json.getValue("parameterName").equals(parameterName)) {
+                    if (json.getValue("parameterName").equals(parameterType.getName())) {
                         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
                         this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
                         try {
@@ -99,6 +96,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     }
 
     private void updateView(){
+        String parameterName = this.parameterType.getName();
         WebClient client = WebClient.create(vertx);
         client.get(PORT, HOST, GREENHOUSE_PATH)
                 .addQueryParam("id", id)
@@ -107,26 +105,26 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
                     greenhouse.setId(this.id);
-                    this.unit = greenhouse.getPlant().getUnitMap().get(this.parameterName);
-                    this.min = this.paramOptimalValue("Min", this.parameterName, greenhouse.getPlant());
-                    this.max = this.paramOptimalValue("Max", this.parameterName, greenhouse.getPlant());
+                    this.unit = greenhouse.getPlant().getUnitMap().get(parameterName);
+                    this.min = this.paramOptimalValue("Min", parameterName, greenhouse.getPlant());
+                    this.max = this.paramOptimalValue("Max", parameterName, greenhouse.getPlant());
                 })
                 .onFailure(System.out::println)
                 .andThen( resp -> {
                     client.get(PORT, HOST, PARAMETER_PATH)
                             .addQueryParam("id", id)
-                            .addQueryParam("parameterName", this.parameterName)
+                            .addQueryParam("parameterName", parameterName)
                             .as(BodyCodec.string())
                             .send()
                             .onSuccess(r -> {
                                 ParameterValue val = gson.fromJson(r.body(), ParameterValueImpl.class);
-                                this.parameter = new ParameterImpl(this.parameterName, val);
+                                this.parameter = new ParameterImpl(parameterName, val);
                             })
                             .onFailure(System.out::println)
                             .andThen(resp2 -> {
                                 client.get(PORT, HOST,PARAMETER_HISTORY_PATH)
                                         .addQueryParam("limit","10")
-                                        .addQueryParam("parameterName", this.parameterName)
+                                        .addQueryParam("parameterName", parameterName)
                                         .addQueryParam("id", this.id)
                                         .send()
                                         .onSuccess(r -> {
@@ -138,7 +136,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                             });
                                             this.parameter.setHistory(history);
                                             String status = this.status();
-                                            this.view.initializePage(this.parameterName,
+                                            this.view.initializePage(this.parameterType,
                                                     this.min.toString() + unit,
                                                     this.max.toString() + unit,
                                                     this.parameter.getCurrentValue().getValue().toString() + unit,

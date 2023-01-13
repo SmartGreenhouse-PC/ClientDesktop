@@ -1,5 +1,6 @@
 package it.unibo.smartgh.view.parameter;
 
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.SubView;
 
 import java.util.Map;
@@ -14,17 +15,17 @@ public interface ParameterPageView extends SubView {
      */
     void updateValues(String value, String status, Map<String, Double> history);
 
-    void setParameter(String parameter);
+    void setParameter(ParameterType parameter);
 
     /**
      * Initialize the parameter page
      *
-     * @param name         of the parameter
+     * @param parameter    the parameter type
      * @param min          optima value
      * @param max          optimal value
      * @param currentValue sensed by the microcontroller
      * @param history parameter history
      * @param status parameter status
      */
-    void initializePage(String name, String min, String max, String currentValue, Map<String, Double> history, String status);
+    void initializePage(ParameterType parameter, String min, String max, String currentValue, Map<String, Double> history, String status);
 }

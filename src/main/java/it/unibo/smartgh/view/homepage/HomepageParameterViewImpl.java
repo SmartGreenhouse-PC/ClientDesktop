@@ -37,7 +37,7 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     public void parameterClicked() {
         Optional<SubView> parameterPage = this.mainView.changeScene("parameterPage.fxml");
         if (parameterPage.isPresent() && parameterPage.get() instanceof ParameterPageView) {
-            ((ParameterPageView) parameterPage.get()).setParameter(this.parameter.getName());
+            ((ParameterPageView) parameterPage.get()).setParameter(this.parameter);
         }
     }
 
@@ -46,7 +46,7 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
         Platform.runLater(() -> {
             this.parameter = parameter;
             this.parameterName.setText(parameter.getTitle());
-            this.parameterImg.setImage(new Image("/images/" + parameter.getImagePath()));
+            this.parameterImg.setImage(new Image(parameter.getImagePath()));
         });
     }
 
