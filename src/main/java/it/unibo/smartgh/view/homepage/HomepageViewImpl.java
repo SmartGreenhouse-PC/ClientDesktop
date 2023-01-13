@@ -38,14 +38,10 @@ public class HomepageViewImpl implements HomepageView {
     private Label statusLabel;
 
     @FXML
-    private Button operationButton;
-
-    @FXML
     private GridPane parameterGrid;
 
     private final Map<ParameterType, HomepageParameterView> parameterViews;
     private ApplicationView mainView;
-    private HomepageControllerImpl controller;
     private String status;
     private String id;
 
@@ -59,8 +55,7 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void initialize() {
-        final List<String> parameterTypes = ParameterType.parameters();
-        for (int i = 0; i < parameterTypes.size() / 2; i++) {
+        for (int i = 0; i < ParameterType.values().length / 2; i++) {
             for (int j = 0; j < 2; j++) {
                 try {
                     final FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/layout/homepage_parameter.fxml"));
@@ -87,8 +82,8 @@ public class HomepageViewImpl implements HomepageView {
         this.mainView = mainView;
         this.id = id;
         this.parameterViews.values().forEach(p -> p.initView(mainView, this.id));
-        this.controller = new HomepageControllerImpl(this, this.id);
-        this.controller.initializeData();
+        final HomepageControllerImpl controller = new HomepageControllerImpl(this, this.id);
+        controller.initializeData();
     }
 
     @Override
