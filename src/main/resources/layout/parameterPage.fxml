@@ -14,115 +14,108 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.parameter.ParameterPageViewImpl">
-   <children>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label fx:id="parameterName" text="parameter name">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.unibo.smartgh.view.parameter.ParameterPageViewImpl">
+   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0"
+         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="parameterName" text="parameter name">
+         <font>
+            <Font name="System Bold" size="22.0"/>
+         </font>
+      </Label>
+      <HBox fillHeight="false" spacing="30.0">
+         <VBox.margin>
+            <Insets left="20.0" top="5.0"/>
+         </VBox.margin>
+         <ImageView fx:id="img" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true"
+                    HBox.hgrow="NEVER">
+            <HBox.margin>
+               <Insets right="20.0"/>
+            </HBox.margin>
+         </ImageView>
+         <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308">
+            <HBox.margin>
+               <Insets left="20.0" right="20.0"/>
+            </HBox.margin>
+            <Label styleClass="titleText" text="Valore attuale">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="18.0"/>
                </font>
             </Label>
-            <HBox fillHeight="false">
-               <children>
-                  <ImageView fx:id="img" fitHeight="98.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
-                  <VBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label text="Valore attuale">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="currentValue" text="Label">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label text="Valori ottimali" textAlignment="JUSTIFY">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <HBox>
-                           <children>
-                              <Label text="Min:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="minValue">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <Label text="Max:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="maxValue">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
+            <Label fx:id="currentValue" styleClass="normalText">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Label>
+         </VBox>
+         <VBox alignment="CENTER_LEFT">
+            <HBox.margin>
+               <Insets left="20.0" right="20.0"/>
+            </HBox.margin>
+            <Label styleClass="titleText" text="Valori ottimali" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Label>
+            <HBox>
+               <Label styleClass="normalText" text="Min:">
+                  <HBox.margin>
+                     <Insets right="10.0"/>
+                  </HBox.margin>
+               </Label>
+               <Label fx:id="minValue" styleClass="normalText">
+                  <font>
+                     <Font size="18.0"/>
+                  </font>
+               </Label>
             </HBox>
-            <VBox VBox.vgrow="ALWAYS">
-               <children>
-                  <Label text="Storico rilevazioni">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <AreaChart fx:id="areaChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" fx:id="xAxis" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis fx:id="yAxis" side="LEFT" />
-                          </yAxis>
-                        </AreaChart>
-                        <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                          <columns>
-                              <TableColumn fx:id="dateColumn" editable="false" prefWidth="75.0" text="Data e ora" />
-                              <TableColumn fx:id="valueColumn" editable="false" prefWidth="75.0" text="Valore" />
-                          </columns>
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </HBox.margin>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <Button mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="Back" />
-         </children>
+            <HBox>
+               <Label styleClass="normalText" text="Max:">
+                  <HBox.margin>
+                     <Insets right="10.0"/>
+                  </HBox.margin>
+               </Label>
+               <Label fx:id="maxValue" styleClass="normalText">
+                  <font>
+                     <Font size="18.0"/>
+                  </font>
+               </Label>
+            </HBox>
+         </VBox>
+      </HBox>
+      <VBox VBox.vgrow="ALWAYS">
+         <Label styleClass="titleText" text="Storico rilevazioni">
+            <font>
+               <Font name="System Bold" size="18.0"/>
+            </font>
+         </Label>
+         <HBox>
+            <AreaChart fx:id="areaChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" fx:id="xAxis"/>
+               </xAxis>
+               <yAxis>
+                  <NumberAxis fx:id="yAxis" side="LEFT"/>
+               </yAxis>
+            </AreaChart>
+            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="dateColumn" editable="false" minWidth="-1.0" prefWidth="50.0"
+                               text="Data e ora"/>
+                  <TableColumn fx:id="valueColumn" editable="false" minWidth="-1.0" prefWidth="50.0"
+                               text="Valore"/>
+               </columns>
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0"/>
+               </HBox.margin>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+               </columnResizePolicy>
+            </TableView>
+         </HBox>
       </VBox>
-   </children>
+      <Button mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="Indietro"/>
+   </VBox>
 </AnchorPane>
