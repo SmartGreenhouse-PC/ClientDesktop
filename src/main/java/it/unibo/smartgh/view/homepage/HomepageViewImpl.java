@@ -17,9 +17,10 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * The implementation of {@link HomepageView} interface.
+ */
 public class HomepageViewImpl implements HomepageView {
-
-    private static final String PARAMETER_LAYOUT = "layout/homepage_parameter.fxml";
 
     @FXML
     private ProgressIndicator loadingImg;
@@ -48,6 +49,9 @@ public class HomepageViewImpl implements HomepageView {
     private String status;
     private String id;
 
+    /**
+     * Instantiates a new Homepage view.
+     */
     public HomepageViewImpl() {
         this.parameterViews = new HashMap<>();
         this.status = "";

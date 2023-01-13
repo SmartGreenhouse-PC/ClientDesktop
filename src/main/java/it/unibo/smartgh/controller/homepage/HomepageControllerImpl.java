@@ -19,6 +19,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The implementation of {@link HomepageController} interface.
+ */
 public class HomepageControllerImpl implements HomepageController {
 
     private static final int PORT = 8890;
@@ -36,6 +39,11 @@ public class HomepageControllerImpl implements HomepageController {
     private Plant plant;
     private Map<String, String> unit;
 
+    /**
+     * Instantiates a new Homepage controller.
+     * @param homepageView the homepage view
+     * @param id           the greenhouse id
+     */
     public HomepageControllerImpl(HomepageViewImpl homepageView, String id) {
         this.view = homepageView;
         this.id = id;
