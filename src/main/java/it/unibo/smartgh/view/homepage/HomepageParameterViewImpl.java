@@ -34,7 +34,6 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     private String unit;
 
     private String parameterStatus = "";
-    private String id;
 
     @FXML
     public void parameterClicked() {
@@ -79,6 +78,5 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     @Override
     public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
-        this.id = id;
     }
 }

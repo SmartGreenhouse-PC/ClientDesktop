@@ -70,9 +70,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
 
     private void setSocket() {
         HttpServer server = vertx.createHttpServer();
-        server.webSocketHandler(ctx -> {
+        server.webSocketHandler(ctx ->
             ctx.textMessageHandler(msg -> {
-                System.out.println(msg);
                 JsonObject json = new JsonObject(msg);
                 if(json.getValue("greenhouseId").equals(this.id)) {
                     if (json.getValue("parameterName").equals(parameterType.getName())) {
@@ -92,8 +91,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                 this.parameter.getHistoryAsMap());
                     }
                 }
-            });
-        }).listen(SOCKET_PORT, SOCKET_HOST);
+            })).listen(SOCKET_PORT, SOCKET_HOST);
 
     }
 
@@ -117,8 +115,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                     this.max = this.paramOptimalValue("Max", parameterName, greenhouse.getPlant());
                 })
                 .onFailure(System.out::println)
-                .andThen( resp -> {
-                    client.get(PORT, HOST, PARAMETER_PATH)
+                .andThen( resp ->
+                        client.get(PORT, HOST, PARAMETER_PATH)
                             .addQueryParam("id", id)
                             .addQueryParam("parameterName", parameterName)
                             .as(BodyCodec.string())
@@ -128,8 +126,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                 this.parameter = new ParameterImpl(parameterName, val);
                             })
                             .onFailure(System.out::println)
-                            .andThen(resp2 -> {
-                                client.get(PORT, HOST,PARAMETER_HISTORY_PATH)
+                            .andThen(resp2 ->
+                                    client.get(PORT, HOST,PARAMETER_HISTORY_PATH)
                                         .addQueryParam("limit","10")
                                         .addQueryParam("parameterName", parameterName)
                                         .addQueryParam("id", this.id)
@@ -150,10 +148,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                                     this.parameter.getHistoryAsMap(),
                                                     status);
                                         })
-                                        .onFailure(System.out::println);
-                            });
-
-                });
+                                        .onFailure(System.out::println)));
     }
 
     private Double paramOptimalValue(String type, String param, Plant plant){

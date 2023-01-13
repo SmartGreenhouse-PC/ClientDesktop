@@ -5,10 +5,11 @@ import it.unibo.smartgh.model.plant.Plant;
 /**
  * Implementation of the greenhouse entity.
  */
-public class GreenhouseImpl implements Greenhouse{
+public class GreenhouseImpl implements Greenhouse {
+
     private final Plant plant;
+    private final Modality modality;
     private String id;
-    private Modality modality;
 
     /**
      * Constructor for the greenhouse entity.

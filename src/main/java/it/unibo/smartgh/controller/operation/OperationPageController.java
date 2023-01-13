@@ -1,6 +1,5 @@
 package it.unibo.smartgh.controller.operation;
 
-
 import it.unibo.smartgh.view.operation.OperationPageView;
 
 import java.time.LocalDate;
