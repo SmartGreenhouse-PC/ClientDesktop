@@ -9,7 +9,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * The implementation of Parameter value deserializer.
+ */
 public class ParameterValueDeserializer  extends GeneralDeserializer implements JsonDeserializer<ParameterValue> {
+
     @Override
     public ParameterValue deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
