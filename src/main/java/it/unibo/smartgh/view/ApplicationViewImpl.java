@@ -14,7 +14,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
-
+/**
+ * The implementation of {@link ApplicationView} interface.
+ */
 public class ApplicationViewImpl extends Application implements ApplicationView {
 
     private final static String ID = "63af0ae025d55e9840cbc1fa";
