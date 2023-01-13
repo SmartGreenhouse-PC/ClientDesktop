@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 public class GreenhouseDeserializer  extends GeneralDeserializer implements JsonDeserializer<Greenhouse> {
     @Override
     public Greenhouse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        Greenhouse greenhouse = null;
+        Greenhouse greenhouse;
         if(json instanceof JsonObject){
             JsonObject object = (JsonObject) json;
             Plant plant = this.getPropertyAs(object, "plant", PlantImpl.class, context);

@@ -2,9 +2,7 @@ package it.unibo.smartgh.model.parameter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The enum that represents the possible types of Parameter.

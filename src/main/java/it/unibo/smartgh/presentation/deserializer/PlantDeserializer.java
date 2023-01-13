@@ -15,7 +15,7 @@ public class PlantDeserializer  extends GeneralDeserializer implements JsonDeser
 
     @Override
     public Plant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        Plant plant = null;
+        Plant plant;
         if(json instanceof JsonObject){
             JsonObject object = (JsonObject) json;
             JsonObject jsonUnit = this.getPropertyAs(object, "unit", JsonObject.class, context);

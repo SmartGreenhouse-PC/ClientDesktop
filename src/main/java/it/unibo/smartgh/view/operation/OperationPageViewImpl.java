@@ -22,6 +22,7 @@ import java.util.List;
 public class OperationPageViewImpl implements OperationPageView {
 
     private OperationPageController controller;
+
     @FXML
     private TableView operationTable;
 

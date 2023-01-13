@@ -6,7 +6,8 @@ import java.util.Objects;
 /**
  * Implementation of the parameter value
  */
-public class ParameterValueImpl implements ParameterValue{
+public class ParameterValueImpl implements ParameterValue {
+
     private String greenhouseId;
     private Date date;
     private Double value;
