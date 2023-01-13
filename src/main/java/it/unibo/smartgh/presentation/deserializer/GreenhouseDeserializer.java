@@ -9,6 +9,9 @@ import it.unibo.smartgh.model.plant.PlantImpl;
 
 import java.lang.reflect.Type;
 
+/**
+ * The implementation of the Greenhouse deserializer.
+ */
 public class GreenhouseDeserializer  extends GeneralDeserializer implements JsonDeserializer<Greenhouse> {
     @Override
     public Greenhouse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

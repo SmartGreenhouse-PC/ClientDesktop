@@ -8,7 +8,11 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The implementation of the Plant deserializer.
+ */
 public class PlantDeserializer  extends GeneralDeserializer implements JsonDeserializer<Plant> {
+
     @Override
     public Plant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Plant plant = null;
