@@ -21,6 +21,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
+/**
+ * The implementation of {@link OperationPageController} interface.
+ */
 public class OperationPageControllerImpl implements OperationPageController {
 
     private final static int PORT = 8890;
@@ -42,6 +45,11 @@ public class OperationPageControllerImpl implements OperationPageController {
     private LocalDate dateFrom;
     private LocalDate dateTo;
 
+    /**
+     * Instantiates a new Operation page controller.
+     * @param operationPageView the operation page view
+     * @param id                the id
+     */
     public OperationPageControllerImpl(OperationPageViewImpl operationPageView, String id) {
         this.view = operationPageView;
         this.id = id;
@@ -145,9 +153,7 @@ public class OperationPageControllerImpl implements OperationPageController {
                     this.view.initializeView(greenhouse.getPlant().getUnitMap().keySet().stream().collect(Collectors.toList()));
                 })
                 .onFailure(System.out::println)
-                .andThen(r -> {
-                    populateTableWithAllOperations();
-                });
+                .andThen(r -> populateTableWithAllOperations());
 
     }
 
