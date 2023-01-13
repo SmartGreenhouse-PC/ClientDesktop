@@ -82,7 +82,8 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                         ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
                         newHistory.add(newParamValue);
                         this.parameter.setHistory(newHistory);
-                        this.view.updateValues(json.getValue("value").toString() + unit, this.status(), this.parameter.getHistoryAsMap());
+                        this.view.updateValues(json.getValue("value").toString() + " " + unit, this.status(),
+                                this.parameter.getHistoryAsMap());
                     }
                 }
             });
