@@ -71,12 +71,4 @@ public enum ParameterType {
     public static Optional<ParameterType> parameterOf(String parameterName) {
         return Arrays.stream(ParameterType.values()).filter(p -> p.name.equals(parameterName)).findFirst();
     }
-
-    /**
-     * Returns all parameters as a list.
-     * @return the list of parameters
-     */
-    public static List<String> parameters() {
-        return Arrays.stream(values()).map(ParameterType::getName).collect(Collectors.toList());
-    }
 }
