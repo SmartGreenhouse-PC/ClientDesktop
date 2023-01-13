@@ -84,6 +84,7 @@ public class HomepageViewImpl implements HomepageView {
         this.id = id;
         this.parameterViews.values().forEach(p -> p.initView(mainView, this.id));
         this.controller = new HomepageControllerImpl(this, this.id);
+        this.controller.initializeData();
     }
 
     @Override

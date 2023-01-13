@@ -41,6 +41,10 @@ public class HomepageControllerImpl implements HomepageController {
         this.id = id;
         this.vertx = Vertx.vertx();
         this.gson = GsonUtils.createGson();
+    }
+
+    @Override
+    public void initializeData() {
         this.updateView();
         this.setSocket();
     }
