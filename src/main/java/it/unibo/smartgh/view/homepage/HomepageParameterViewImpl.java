@@ -58,12 +58,14 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
 
     @Override
     public void setCurrentValue(Double value, String status) {
-        Platform.runLater(() -> this.currentValueLabel.setText(value + " " + unit));
-        if (!this.parameterStatus.equals(status)) {
-            this.currentValueLabel.getStyleClass().removeAll(this.parameterStatus + "State");
-            this.parameterStatus = status;
-            this.currentValueLabel.getStyleClass().add(this.parameterStatus + "State");
-        }
+        Platform.runLater(() -> {
+            this.currentValueLabel.setText(value + " " + unit);
+            if (!this.parameterStatus.equals(status)) {
+                this.currentValueLabel.getStyleClass().removeAll(this.parameterStatus + "State");
+                this.parameterStatus = status;
+                this.currentValueLabel.getStyleClass().add(this.parameterStatus + "State");
+            }
+        });
     }
 
     @Override
