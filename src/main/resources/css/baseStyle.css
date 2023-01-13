@@ -5,41 +5,28 @@
 }
 
 .card:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 2, 0);}
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 2, 0);
+}
 
 .normalText {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
 }
 
 .titleText {
-    -fx-font-size: 14px;
+    -fx-font-size: 17px;
     -fx-font-weight: bold;
 }
 
 .normalState {
+    -fx-font-weight: bold;
     -fx-text-fill: #04B700;
     -fx-background-color: transparent;
 }
 
 .alarmState {
+    -fx-font-weight: bold;
     -fx-text-fill: #842029;
     -fx-background-color: #F8D7DA;
-}
-
-.errorText, .ALARM {
-    -fx-text-fill: #842029;
-}
-
-.descriptionText {
-    -fx-font-size: 14px;
-}
-
-.alarmPane {
-    -fx-background-color: #F8D7DA;
-    -fx-border-color: #F1AEB5;
-    -fx-border-width: 1;
-    -fx-border-style: solid;
-    -fx-border-radius: 5;
 }
 
 .transparentPane {
@@ -47,7 +34,7 @@
 }
 
 .button, .toggle-button, .outlined-btn  {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-border-color: black;
     -fx-text-fill: black;
     -fx-background-color: white;
@@ -58,71 +45,8 @@
     -fx-padding: 6px 10px;
 }
 
-.button:hover, .toggle-button:selected, .toggle-button:hover, .outlined-btn:hover {
+.button:hover {
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 2, 0);
-}
-
-.normalButton {
-    -fx-border-color: #04B700;
-    -fx-text-fill: #04B700;
-}
-
-.normalButton:hover {
-    -fx-background-color: #04B700;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
-}
-
-.alarmButton {
-    -fx-border-color: #842029;
-    -fx-text-fill: #842029;
-}
-
-.alarmButton:hover {
-    -fx-background-color: #842029;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
-}
-
-.defaultButton {
-    -fx-border-color: black;
-    -fx-text-fill: black;
-}
-
-.defaultButton:hover {
-    -fx-text-fill: black;
-    -fx-background-color: white;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
-}
-
-.infoButton {
-    -fx-border-radius: 50%;
-    -fx-background-color: transparent;
-}
-
-.infoButton:hover {
-    -fx-font-weight: bold;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 2, 0);
-}
-
-.toggle-button, .outlined-btn {
-    -fx-border-color: #17A2B8;
-    -fx-text-fill: #17A2B8;
-}
-
-.toggle-button:selected, .toggle-button:hover, .outlined-btn:hover, .slider .thumb {
-    -fx-background-color: #17A2B8;
-}
-
-.outlined-btn:pressed {
-    -fx-effect: dropshadow(three-pass-box, #49d3e9, 5, 0, 0, 0);
-}
-
-.slider{
-    -fx-control-inner-background: #FFFFFF
-}
-
-#areaBt:hover{
-    -fx-font-weight: bold;
 }
