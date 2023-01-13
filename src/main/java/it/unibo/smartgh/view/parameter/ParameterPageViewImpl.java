@@ -19,11 +19,13 @@ import java.net.URL;
 import java.util.Map;
 
 public class ParameterPageViewImpl implements ParameterPageView {
+
     @FXML
     private Label parameterName;
 
     @FXML
     private Label minValue;
+
     @FXML
     private Label currentValue;
 
@@ -54,7 +56,6 @@ public class ParameterPageViewImpl implements ParameterPageView {
     private ApplicationView mainView;
     private String id;
     private ParameterPageController controller;
-
 
     @Override
     public void updateValues(String value, String status, Map<String, Double> history) {
@@ -91,8 +92,7 @@ public class ParameterPageViewImpl implements ParameterPageView {
             this.maxValue.setText(max);
             this.currentValue.setText(currentValue);
             this.setColorByStatus(status);
-            this.setHistory(history, status.equals("normal") ? "6DB960" : "D90000");
-
+            this.setHistory(history, status);
         });
     }
 
@@ -101,7 +101,7 @@ public class ParameterPageViewImpl implements ParameterPageView {
         this.mainView.changeScene("homepage.fxml");
     }
 
-    private void setHistory(Map<String, Double> history, String color) {
+    private void setHistory(Map<String, Double> history, String status) {
         areaChart.getData().clear();
         table.getItems().clear();
 
@@ -111,22 +111,19 @@ public class ParameterPageViewImpl implements ParameterPageView {
         areaChart.getYAxis().setLabel("values");
 
         XYChart.Series series = new XYChart.Series<>();
-        series.setName("parameter history");
+        series.setName("rilevazioni");
         history.forEach((k,v) -> {
             series.getData().add(new XYChart.Data<>(k, v));
             table.getItems().add(new Row(k, v));
         });
         areaChart.getData().add(series);
-        Node fill = series.getNode().lookup(".chart-series-area-fill"); // only for AreaChart
-        Node line = series.getNode().lookup(".chart-series-area-line");
-
-        line.setStyle("-fx-stroke: #" + color);
-        fill.setStyle("-fx-fill: #" + color);
-
+        areaChart.getStyleClass().removeIf(s -> s.contains("StateChart"));
+        areaChart.getStyleClass().add(status + "StateChart");
     }
 
     private void setColorByStatus(String status){
-        this.currentValue.setStyle(status.equals("normal") ? "-fx-text-fill: '6DB960';" : "-fx-text-fill: 'D90000';");
+        this.currentValue.getStyleClass().removeIf(c -> c.contains("State"));
+        this.currentValue.getStyleClass().add(status + "State");
     }
 
     public class Row {

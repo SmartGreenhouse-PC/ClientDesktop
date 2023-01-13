@@ -23,10 +23,26 @@
     -fx-background-color: transparent;
 }
 
+.normalStateChart .chart-series-area-fill {
+    -fx-fill: #d7f8da;
+}
+
+.normalStateChart .chart-series-area-line {
+    -fx-stroke: #04B700;
+}
+
 .alarmState {
     -fx-font-weight: bold;
     -fx-text-fill: #842029;
     -fx-background-color: #F8D7DA;
+}
+
+.alarmStateChart .chart-series-area-fill {
+    -fx-fill: #F8D7DA;
+}
+
+.alarmStateChart .chart-series-area-line {
+    -fx-stroke: #842029;
 }
 
 .transparentPane {

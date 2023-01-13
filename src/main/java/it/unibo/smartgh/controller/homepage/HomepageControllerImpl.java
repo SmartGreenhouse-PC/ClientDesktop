@@ -88,7 +88,6 @@ public class HomepageControllerImpl implements HomepageController {
                                         .send()
                                         .onSuccess(r -> {
                                             final ParameterValue value = gson.fromJson(r.body(), ParameterValueImpl.class);
-                                            System.out.println(value);
                                             boolean inRange = true;
                                             switch (p) {
                                                 case BRIGHTNESS: {
