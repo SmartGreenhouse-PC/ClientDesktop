@@ -6,15 +6,13 @@ import it.unibo.smartgh.view.SubView;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
-public class ParameterViewImpl implements ParameterView {
+public class HomepageParameterViewImpl implements HomepageParameterView {
 
     @FXML
     private Label parameterName;

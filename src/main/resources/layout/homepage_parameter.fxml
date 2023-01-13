@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane onMouseClicked="#parameterClicked" styleClass="card" stylesheets="@../css/baseStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.homepage.ParameterViewImpl">
+<StackPane onMouseClicked="#parameterClicked" styleClass="card" stylesheets="@../css/baseStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.homepage.HomepageParameterViewImpl">
     <BorderPane>
         <top>
             <Label fx:id="parameterName" styleClass="titleText" text="parameter" BorderPane.alignment="CENTER" />
