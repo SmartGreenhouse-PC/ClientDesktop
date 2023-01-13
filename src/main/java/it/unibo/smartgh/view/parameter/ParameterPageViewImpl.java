@@ -2,6 +2,7 @@ package it.unibo.smartgh.view.parameter;
 
 import it.unibo.smartgh.controller.parameter.ParameterPageController;
 import it.unibo.smartgh.controller.parameter.ParameterPageControllerImpl;
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -72,19 +73,20 @@ public class ParameterPageViewImpl implements ParameterPageView {
     }
 
     @Override
-    public void setParameter(String parameter) {
+    public void setParameter(ParameterType parameter) {
         this.controller.setParameter(parameter);
     }
 
     @Override
-    public void initializePage(String name, String min, String max, String currentValue, Map<String, Double> history, String status) {
+    public void initializePage(ParameterType parameter, String min, String max, String currentValue,
+                               Map<String, Double> history,
+                               String status) {
         Platform.runLater(() -> {
             dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
             valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-            this.parameterName.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
-            URL url = getClass().getClassLoader().getResource("images/"+name+".png");
-            this.img.setImage(new Image(url.toExternalForm()));
+            this.parameterName.setText(parameter.getTitle());
+            this.img.setImage(new Image(parameter.getImagePath()));
             this.minValue.setText(min);
             this.maxValue.setText(max);
             this.currentValue.setText(currentValue);
@@ -108,10 +110,10 @@ public class ParameterPageViewImpl implements ParameterPageView {
         areaChart.getXAxis().setLabel("date and time");
         areaChart.getYAxis().setLabel("values");
 
-        XYChart.Series series = new XYChart.Series();
+        XYChart.Series series = new XYChart.Series<>();
         series.setName("parameter history");
         history.forEach((k,v) -> {
-            series.getData().add(new XYChart.Data(k, v));
+            series.getData().add(new XYChart.Data<>(k, v));
             table.getItems().add(new Row(k, v));
         });
         areaChart.getData().add(series);

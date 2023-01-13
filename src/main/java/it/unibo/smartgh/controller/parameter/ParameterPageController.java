@@ -1,5 +1,6 @@
 package it.unibo.smartgh.controller.parameter;
 
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
 
 public interface ParameterPageController {
@@ -9,5 +10,5 @@ public interface ParameterPageController {
      */
     ParameterPageView getView();
 
-    void setParameter(String parameter);
+    void setParameter(ParameterType parameter);
 }
