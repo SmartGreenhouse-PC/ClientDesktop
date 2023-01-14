@@ -38,6 +38,7 @@ public class HomepageControllerImpl implements HomepageController {
     private GreenhouseImpl greenhouse;
     private Plant plant;
     private Map<String, String> unit;
+    private HttpServer server;
 
     /**
      * Instantiates a new Homepage controller.
@@ -57,8 +58,13 @@ public class HomepageControllerImpl implements HomepageController {
         this.setSocket();
     }
 
+    @Override
+    public void closeSocket() {
+        this.server.close();
+    }
+
     private void setSocket() {
-        HttpServer server = vertx.createHttpServer();
+        server = vertx.createHttpServer();
         server.webSocketHandler(ctx -> ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
                 if (json.getValue("greenhouseId").equals(this.id)) {

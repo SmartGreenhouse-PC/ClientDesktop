@@ -1,5 +1,7 @@
 package it.unibo.smartgh.view.homepage;
 
+import it.unibo.smartgh.controller.homepage.HomepageController;
+import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.SubView;
 
@@ -34,4 +36,9 @@ public interface HomepageParameterView extends SubView {
      * @return the parameter status
      */
     String getParameterStatus();
+
+    /**
+     * Sets the homepage controller.
+     */
+    void setController(HomepageController controller);
 }

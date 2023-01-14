@@ -19,6 +19,7 @@ import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +45,7 @@ public class OperationPageControllerImpl implements OperationPageController {
     private String selectedParameterFilter = "-";
     private LocalDate dateFrom;
     private LocalDate dateTo;
+    private HttpServer server;
 
     /**
      * Instantiates a new Operation page controller.
@@ -121,9 +123,15 @@ public class OperationPageControllerImpl implements OperationPageController {
                 .onFailure(System.out::println);
     }
 
+
+    @Override
+    public void closeSocket() {
+        this.server.close();
+    }
+
     private void setSocket() {
-        HttpServer server = vertx.createHttpServer();
-        server.webSocketHandler(ctx -> {
+        server = vertx.createHttpServer();
+        server.webSocketHandler(ctx ->
             ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
                 if(json.getValue("greenhouseId").equals(this.id)) {
@@ -137,8 +145,7 @@ public class OperationPageControllerImpl implements OperationPageController {
                 } else {
                     this.selectRange(this.dateFrom, this.dateTo);
                 }
-            });
-        }).listen(SOCKET_PORT, SOCKET_HOST);
+            })).listen(SOCKET_PORT, SOCKET_HOST);
 
     }
 
@@ -150,7 +157,7 @@ public class OperationPageControllerImpl implements OperationPageController {
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
                     greenhouse.setId(this.id);
-                    this.view.initializeView(greenhouse.getPlant().getUnitMap().keySet().stream().collect(Collectors.toList()));
+                    this.view.initializeView(new ArrayList<>(greenhouse.getPlant().getUnitMap().keySet()));
                 })
                 .onFailure(System.out::println)
                 .andThen(r -> populateTableWithAllOperations());

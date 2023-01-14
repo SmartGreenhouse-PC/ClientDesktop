@@ -27,4 +27,9 @@ public interface OperationPageController {
      * @param to date
      */
     void selectRange(LocalDate from, LocalDate to);
+
+    /**
+     * Close the socket.
+     */
+    void closeSocket();
 }

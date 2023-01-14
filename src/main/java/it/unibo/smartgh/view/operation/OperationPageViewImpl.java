@@ -89,6 +89,7 @@ public class OperationPageViewImpl implements OperationPageView {
 
     @FXML
     public void backBtnClicked() {
+        this.controller.closeSocket();
         this.mainView.changeScene("homepage.fxml");
     }
 

@@ -42,6 +42,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private Double max;
     private String unit;
     private final ParameterPageView view;
+    private HttpServer server;
 
     /**
      * Instantiates a new Parameter page controller.
@@ -68,8 +69,13 @@ public class ParameterPageControllerImpl implements ParameterPageController {
         this.setSocket();
     }
 
+    @Override
+    public void closeSocket() {
+        this.server.close();
+    }
+
     private void setSocket() {
-        HttpServer server = vertx.createHttpServer();
+        server = vertx.createHttpServer();
         server.webSocketHandler(ctx ->
             ctx.textMessageHandler(msg -> {
                 JsonObject json = new JsonObject(msg);
@@ -128,7 +134,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             .onFailure(System.out::println)
                             .andThen(resp2 ->
                                     client.get(PORT, HOST,PARAMETER_HISTORY_PATH)
-                                        .addQueryParam("limit","10")
+                                        .addQueryParam("limit","15")
                                         .addQueryParam("parameterName", parameterName)
                                         .addQueryParam("id", this.id)
                                         .send()
