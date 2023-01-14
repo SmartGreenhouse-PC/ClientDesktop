@@ -17,6 +17,10 @@
     -fx-font-weight: bold;
 }
 
+.labelText {
+    -fx-font-size: 12px;
+}
+
 .normalState {
     -fx-font-weight: bold;
     -fx-text-fill: #04B700;

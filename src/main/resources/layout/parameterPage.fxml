@@ -90,7 +90,7 @@
             </font>
          </Label>
          <HBox>
-            <AreaChart fx:id="areaChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+            <AreaChart fx:id="areaChart" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="labelText" HBox.hgrow="ALWAYS">
                <xAxis>
                   <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                </xAxis>
@@ -98,7 +98,7 @@
                   <NumberAxis fx:id="yAxis" side="LEFT" />
                </yAxis>
             </AreaChart>
-            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="normalText" HBox.hgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="dateColumn" editable="false" minWidth="-1.0" prefWidth="50.0" text="Data e ora" />
                   <TableColumn fx:id="valueColumn" editable="false" minWidth="-1.0" prefWidth="50.0" text="Valore" />
