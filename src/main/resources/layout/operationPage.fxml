@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1000.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.operation.OperationPageViewImpl">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1000.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.smartgh.view.operation.OperationPageViewImpl">
    <Label styleClass="titleText" text="Riepilogo operazioni">
       <font>
          <Font name="System Bold" size="24.0" />
