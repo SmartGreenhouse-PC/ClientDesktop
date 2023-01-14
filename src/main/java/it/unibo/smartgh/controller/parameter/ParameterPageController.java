@@ -19,4 +19,9 @@ public interface ParameterPageController {
      * @param parameter the current parameter
      */
     void setParameter(ParameterType parameter);
+
+    /**
+     * Close the socket.
+     */
+    void closeSocket();
 }

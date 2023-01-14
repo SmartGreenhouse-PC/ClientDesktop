@@ -9,4 +9,9 @@ public interface HomepageController {
      * Initialize the homepage data.
      */
     void initializeData();
+
+    /**
+     * Close the socket.
+     */
+    void closeSocket();
 }

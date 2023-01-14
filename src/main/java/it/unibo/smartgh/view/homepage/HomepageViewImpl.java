@@ -1,5 +1,6 @@
 package it.unibo.smartgh.view.homepage;
 
+import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
@@ -42,6 +43,7 @@ public class HomepageViewImpl implements HomepageView {
 
     private final Map<ParameterType, HomepageParameterView> parameterViews;
     private ApplicationView mainView;
+    private HomepageController controller;
     private String status;
     private String id;
 
@@ -74,6 +76,7 @@ public class HomepageViewImpl implements HomepageView {
 
     @FXML
     public void operationBtnClicked() {
+        this.controller.closeSocket();
         this.mainView.changeScene("operationPage.fxml");
     }
 
@@ -81,8 +84,11 @@ public class HomepageViewImpl implements HomepageView {
     public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
         this.id = id;
-        this.parameterViews.values().forEach(p -> p.initView(mainView, this.id));
-        final HomepageControllerImpl controller = new HomepageControllerImpl(this, this.id);
+        this.controller = new HomepageControllerImpl(this, this.id);
+        this.parameterViews.values().forEach(p -> {
+            p.initView(mainView, this.id);
+            p.setController(controller);
+        });
         controller.initializeData();
     }
 

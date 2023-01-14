@@ -57,7 +57,6 @@ public class ParameterPageViewImpl implements ParameterPageView {
     private TableColumn valueColumn;
 
     private ApplicationView mainView;
-    private String id;
     private ParameterPageController controller;
 
     @Override
@@ -65,14 +64,13 @@ public class ParameterPageViewImpl implements ParameterPageView {
         Platform.runLater(() -> {
             this.currentValue.setText(value);
             this.setColorByStatus(status);
-            this.setHistory(history, status.equals("normal") ? "6DB960" : "D90000");
+            this.setHistory(history, status);
         });
     }
 
     @Override
     public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
-        this.id = id;
         this.controller = new ParameterPageControllerImpl(this, id);
     }
 
@@ -101,6 +99,7 @@ public class ParameterPageViewImpl implements ParameterPageView {
 
     @FXML
     public void backButtonClicked() {
+        this.controller.closeSocket();
         this.mainView.changeScene("homepage.fxml");
     }
 

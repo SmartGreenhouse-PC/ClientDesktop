@@ -1,5 +1,6 @@
 package it.unibo.smartgh.view.homepage;
 
+import it.unibo.smartgh.controller.homepage.HomepageController;
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
 import it.unibo.smartgh.view.SubView;
@@ -30,13 +31,14 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     private Label currentValueLabel;
 
     private ApplicationView mainView;
+    private HomepageController controller;
     private ParameterType parameter;
     private String unit;
-
     private String parameterStatus = "";
 
     @FXML
     public void parameterClicked() {
+        this.controller.closeSocket();
         Optional<SubView> parameterPage = this.mainView.changeScene("parameterPage.fxml");
         if (parameterPage.isPresent() && parameterPage.get() instanceof ParameterPageView) {
             ((ParameterPageView) parameterPage.get()).setParameter(this.parameter);
@@ -73,6 +75,11 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     @Override
     public String getParameterStatus() {
         return parameterStatus;
+    }
+
+    @Override
+    public void setController(HomepageController controller) {
+        this.controller = controller;
     }
 
     @Override

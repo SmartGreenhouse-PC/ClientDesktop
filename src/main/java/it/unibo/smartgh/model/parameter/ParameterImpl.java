@@ -49,7 +49,7 @@ public class ParameterImpl implements Parameter{
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         Map<String, Double> map = this.getHistory()
                 .stream()
-                .collect(Collectors.toMap(p -> formatter.format(p.getDate()), ParameterValue::getValue));
+                .collect(Collectors.toMap(p -> formatter.format(p.getDate()), ParameterValue::getValue, (p1, p2) -> p1));
         return map.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
