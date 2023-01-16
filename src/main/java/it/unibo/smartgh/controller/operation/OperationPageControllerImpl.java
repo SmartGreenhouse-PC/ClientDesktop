@@ -1,7 +1,9 @@
 package it.unibo.smartgh.controller.operation;
 
 import com.google.gson.Gson;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -15,11 +17,14 @@ import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.operation.OperationPageView;
 import it.unibo.smartgh.view.operation.OperationPageViewImpl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -28,9 +33,8 @@ import java.util.stream.Collectors;
 public class OperationPageControllerImpl implements OperationPageController {
 
     private final static int PORT = 8890;
-    private final static int SOCKET_PORT = 1235;
-    private final static String SOCKET_HOST = "localhost";
-    private final static String HOST = "localhost";
+    private static int SOCKET_PORT;
+    private static String HOST;
     private final static String GREENHOUSE_PATH = "/clientCommunication/greenhouse";
     private final static String BASE_PATH = "/clientCommunication/operations";
     private final static String PARAM_PATH = BASE_PATH + "/parameter";
@@ -45,7 +49,7 @@ public class OperationPageControllerImpl implements OperationPageController {
     private String selectedParameterFilter = "-";
     private LocalDate dateFrom;
     private LocalDate dateTo;
-    private HttpServer server;
+    private WebSocket socket;
 
     /**
      * Instantiates a new Operation page controller.
@@ -58,6 +62,15 @@ public class OperationPageControllerImpl implements OperationPageController {
         this.vertx = Vertx.vertx();
         this.gson = GsonUtils.createGson();
         this.client = WebClient.create(vertx);
+        try {
+            InputStream is = OperationPageControllerImpl.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+            HOST = properties.getProperty("host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.initializeView();
         this.setSocket();
     }
@@ -126,27 +139,34 @@ public class OperationPageControllerImpl implements OperationPageController {
 
     @Override
     public void closeSocket() {
-        this.server.close();
+        this.socket.close();
     }
 
     private void setSocket() {
-        server = vertx.createHttpServer();
-        server.webSocketHandler(ctx ->
-            ctx.textMessageHandler(msg -> {
-                JsonObject json = new JsonObject(msg);
-                if(json.getValue("greenhouseId").equals(this.id)) {
-                   if (this.dateTo == null && this.dateFrom == null){
-                       if (this.selectedParameterFilter.equals("-")){
-                           this.populateTableWithAllOperations();
-                       } else {
-                           this.changeSelectedParameter(this.selectedParameterFilter);
-                       }
-                   }
-                } else {
-                    this.selectRange(this.dateFrom, this.dateTo);
-                }
-            })).listen(SOCKET_PORT, SOCKET_HOST);
-
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) {
+                        socket = ctx;
+                        ctx.textMessageHandler(msg -> {
+                            JsonObject json = new JsonObject(msg);
+                            if(json.getValue("greenhouseId").equals(this.id)) {
+                                if (this.dateTo == null && this.dateFrom == null){
+                                    if (this.selectedParameterFilter.equals("-")){
+                                        this.populateTableWithAllOperations();
+                                    } else {
+                                        this.changeSelectedParameter(this.selectedParameterFilter);
+                                    }
+                                }
+                            } else {
+                                this.selectRange(this.dateFrom, this.dateTo);
+                            }
+                        });
+                    }
+                });
     }
 
     private void initializeView() {

@@ -2,7 +2,9 @@ package it.unibo.smartgh.controller.homepage;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
@@ -15,9 +17,12 @@ import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.homepage.HomepageView;
 import it.unibo.smartgh.view.homepage.HomepageViewImpl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 
 /**
  * The implementation of {@link HomepageController} interface.
@@ -25,9 +30,8 @@ import java.util.Optional;
 public class HomepageControllerImpl implements HomepageController {
 
     private static final int PORT = 8890;
-    private final static int SOCKET_PORT = 1234;
-    private static final String HOST = "localhost";
-    private final static String SOCKET_HOST = "localhost";
+    private static int SOCKET_PORT;
+    private static String HOST;
     private final static String BASE_PATH = "/clientCommunication";
     private static final String GREENHOUSE_PATH = BASE_PATH + "/greenhouse";
     private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
@@ -38,7 +42,7 @@ public class HomepageControllerImpl implements HomepageController {
     private GreenhouseImpl greenhouse;
     private Plant plant;
     private Map<String, String> unit;
-    private HttpServer server;
+    WebSocket socket;
 
     /**
      * Instantiates a new Homepage controller.
@@ -50,6 +54,15 @@ public class HomepageControllerImpl implements HomepageController {
         this.id = id;
         this.vertx = Vertx.vertx();
         this.gson = GsonUtils.createGson();
+        try {
+            InputStream is = HomepageControllerImpl.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+            HOST = properties.getProperty("host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParameter.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -60,19 +73,28 @@ public class HomepageControllerImpl implements HomepageController {
 
     @Override
     public void closeSocket() {
-        this.server.close();
+        this.socket.close();
     }
 
     private void setSocket() {
-        server = vertx.createHttpServer();
-        server.webSocketHandler(ctx -> ctx.textMessageHandler(msg -> {
-                JsonObject json = new JsonObject(msg);
-                if (json.getValue("greenhouseId").equals(this.id)) {
-                    Optional<ParameterType> parameter = ParameterType.parameterOf(json.getString("parameterName"));
-                    parameter.ifPresent(parameterType -> this.view.updateParameterValue(parameterType,
-                            json.getDouble("value"), json.getString("status")));
-                }
-           })).listen(SOCKET_PORT, SOCKET_HOST);
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) {
+                        socket = ctx;
+                        ctx.textMessageHandler(msg -> {
+                            JsonObject json = new JsonObject(msg);
+                            if (json.getValue("greenhouseId").equals(this.id)) {
+                                Optional<ParameterType> parameter = ParameterType.parameterOf(json.getString("parameterName"));
+                                parameter.ifPresent(parameterType -> this.view.updateParameterValue(parameterType,
+                                        json.getDouble("value"), json.getString("status")));
+                            }
+                        });
+                    }});
+
     }
 
     private void updateView() {

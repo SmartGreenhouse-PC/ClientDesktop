@@ -2,7 +2,9 @@ package it.unibo.smartgh.controller.parameter;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -13,21 +15,24 @@ import it.unibo.smartgh.model.parameter.*;
 import it.unibo.smartgh.model.plant.Plant;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * The implementation of {@link ParameterPageController} interface.
  */
 public class ParameterPageControllerImpl implements ParameterPageController {
     private final static int PORT = 8890;
-    private final static int SOCKET_PORT = 1234;
-    private final static String SOCKET_HOST = "localhost";
-    private final static String HOST = "localhost";
+    private static int SOCKET_PORT;
+    private static String HOST;
     private final static String BASE_PATH = "/clientCommunication";
     private static final String GREENHOUSE_PATH = BASE_PATH + "/greenhouse";
     private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
@@ -42,7 +47,7 @@ public class ParameterPageControllerImpl implements ParameterPageController {
     private Double max;
     private String unit;
     private final ParameterPageView view;
-    private HttpServer server;
+    private WebSocket socket;
 
     /**
      * Instantiates a new Parameter page controller.
@@ -55,6 +60,15 @@ public class ParameterPageControllerImpl implements ParameterPageController {
         this.id = id;
         this.gson = GsonUtils.createGson();
         this.vertx = Vertx.vertx();
+        try {
+            InputStream is = ParameterPageControllerImpl.class.getResourceAsStream("/config.properties");
+            var properties = new Properties();
+            properties.load(is);
+            HOST = properties.getProperty("host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParameter.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -71,33 +85,41 @@ public class ParameterPageControllerImpl implements ParameterPageController {
 
     @Override
     public void closeSocket() {
-        this.server.close();
+        this.socket.close();
     }
 
     private void setSocket() {
-        server = vertx.createHttpServer();
-        server.webSocketHandler(ctx ->
-            ctx.textMessageHandler(msg -> {
-                JsonObject json = new JsonObject(msg);
-                if(json.getValue("greenhouseId").equals(this.id)) {
-                    if (json.getValue("parameterName").equals(parameterType.getName())) {
-                        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-                        this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
-                        try {
-                            this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date")));
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                        var newHistory = this.parameter.getHistory();
-                        newHistory.remove(0);
-                        ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
-                        newHistory.add(newParamValue);
-                        this.parameter.setHistory(newHistory);
-                        this.view.updateValues(json.getValue("value").toString() + " " + unit, this.status(),
-                                this.parameter.getHistoryAsMap());
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) {
+                        socket = ctx;
+                        ctx.textMessageHandler(msg -> {
+                            JsonObject json = new JsonObject(msg);
+                            if(json.getValue("greenhouseId").equals(this.id)) {
+                                if (json.getValue("parameterName").equals(parameterType.getName())) {
+                                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+                                    this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
+                                    try {
+                                        this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date")));
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    var newHistory = this.parameter.getHistory();
+                                    newHistory.remove(0);
+                                    ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
+                                    newHistory.add(newParamValue);
+                                    this.parameter.setHistory(newHistory);
+                                    this.view.updateValues(json.getValue("value").toString() + " " + unit, this.status(), this.parameter.getHistoryAsMap());
+                                }
+                            }
+                        });
                     }
-                }
-            })).listen(SOCKET_PORT, SOCKET_HOST);
+
+                });
 
     }
 
