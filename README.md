@@ -1,5 +1,8 @@
-# ClientDesktop
-To follow this deployment option you must have installed on your host:
+# Greenhouse Client Desktop Application
+This repository contains the code for the Greenhouse Desktop application.
+
+## Deployment instruction
+To deploy the application you must have installed on your host:
 
 - the 11 version of the openjdk: [https://openjdk.org/](https://openjdk.org/)
 - Gradle: [https://gradle.org/](https://gradle.org/)
