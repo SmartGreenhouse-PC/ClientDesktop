@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public class ApplicationViewImpl extends Application implements ApplicationView {
 
-    private final static String ID = "63af0ae025d55e9840cbc1fa";
+    private final static String ID = "63af0ae025d55e9840cbc1fc";
 
     @FXML
     private BorderPane borderPane;
