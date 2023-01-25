@@ -1,8 +1,11 @@
 {
-    "devDependencies": {
-      "semantic-release-preconfigured-conventional-commits": "1.1.15"
-    },
-    "engines": {
-      "node": ">=18"
-    }
-  }
+  "name": "SmartGreenhouseClientDesktop",
+  "private": true,
+  "devDependencies": {
+    "semantic-release-preconfigured-conventional-commits": "1.1.16"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "version": "1.0.1"
+}
