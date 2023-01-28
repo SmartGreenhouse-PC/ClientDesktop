@@ -1,157 +1,67 @@
 package it.unibo.smartgh.model.plant;
 
+import it.unibo.smartgh.model.parameter.ParameterType;
+
 import java.util.Map;
 
 /**
  * Builder for the plant entity.
  */
 public final class PlantBuilder {
-    private String name;
+    private final String name;
     private String description;
-    private Double minTemperature;
-    private Double maxTemperature;
-    private Double minBrightness;
-    private Double maxBrightness;
-    private Double minSoilMoisture;
-    private Double maxSoilMoisture;
-    private Double minHumidity;
-    private Double maxHumidity;
     private String img;
-    private Map<String, String> units;
+    private Map<ParameterType, PlantParameter> parameters;
 
     /**
-     * Constructor for the plant entity
-     * @param name of the plant
+     * Constructor for the plant entity.
+     * @param name of the plant.
      */
     public PlantBuilder(String name) {
         this.name = name;
     }
 
     /**
-     * Add description to plant entity
-     * @param description of the plant
-     * @return the plant builder
+     * Add description to plant entity.
+     * @param description of the plant.
+     * @return the plant builder.
      */
     public PlantBuilder description(String description) {
         this.description = description;
         return this;
     }
+
     /**
-     * Add image to plant entity
-     * @param image of the plant
-     * @return the plant builder
+     * Add image to plant entity.
+     * @param image of the plant.
+     * @return the plant builder.
      */
     public PlantBuilder image(String image) {
         this.img = image;
         return this;
     }
-    /**
-     * Add the minimum temperature to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder minTemperature(Double val) {
-        this.minTemperature = val;
-        return this;
-    }
-    /**
-     * Add the maximum temperature to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder maxTemperature(Double val) {
-        this.maxTemperature = val;
-        return this;
-    }
-    /**
-     * Add the minimum brightness to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder minBrightness(Double val) {
-        this.minBrightness = val;
-        return this;
-    }
-    /**
-     * Add the maximum brightness to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder maxBrightness(Double val) {
-        this.maxBrightness = val;
-        return this;
-    }
 
     /**
-     * Add the minimum soil moisture to plant entity
-     * @param val of the plant
-     * @return the plant builder
+     * Add units map.
+     * @param parameters of parameters.
+     * @return the plant builder.
      */
-    public PlantBuilder minSoilMoisture(Double val) {
-        this.minSoilMoisture = val;
-        return this;
-    }
-
-    /**
-     * Add the maximum soil moisture to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder maxSoilMoisture(Double val) {
-        this.maxSoilMoisture = val;
-        return this;
-    }
-
-    /**
-     * Add the minimum humidity to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder minHumidity(Double val) {
-        this.minHumidity = val;
-        return this;
-    }
-
-    /**
-     * Add the maximum humidity to plant entity
-     * @param val of the plant
-     * @return the plant builder
-     */
-    public PlantBuilder maxHumidity(Double val) {
-        this.maxHumidity = val;
-        return this;
-    }
-
-    /**
-     * Add units map
-     * @param units of parameters
-     * @return the plant builder
-     */
-    public PlantBuilder units(Map<String, String> units) {
-        this.units = units;
+    public PlantBuilder parameters(Map<ParameterType, PlantParameter> parameters) {
+        this.parameters = parameters;
         return this;
     }
 
 
     /**
-     * Create a new Plant entity
-     * @return the new plant
+     * Create a new Plant entity.
+     * @return the new plant.
      */
     public Plant build(){
         return new PlantImpl(this.name,
                 this.description,
                 this.img,
-                this.minTemperature,
-                this.maxTemperature,
-                this.minBrightness,
-                this.maxBrightness,
-                this.minSoilMoisture,
-                this.maxSoilMoisture,
-                this.minHumidity,
-                this.maxHumidity,
-                this.units
-        );
+                this.parameters
+                );
     }
 
 }
-
