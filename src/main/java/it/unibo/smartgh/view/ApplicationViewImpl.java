@@ -1,6 +1,7 @@
 package it.unibo.smartgh.view;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -39,6 +40,11 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
         stage.setTitle("Smart Greenhouse");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(t -> {
+                Platform.exit();
+                System.exit(0);
+        });
     }
 
     @Override
