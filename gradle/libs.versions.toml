@@ -3,6 +3,9 @@ vertx = "4.3.3"
 junit = "5.8.1"
 vertxTest = "4.1.5"
 gson = "2.8.8"
+testfx = "4.0.16-alpha"
+awaitility = "3.0.0"
+monocle = "jdk-12.0.1+2"
 
 [libraries]
 vertx-core = {module = "io.vertx:vertx-core", version.ref = "vertx"}
@@ -12,6 +15,10 @@ vertx-test = {module= "io.vertx:vertx-junit5", version.ref = "vertxTest"}
 junit-api = {module = "org.junit.jupiter:junit-jupiter-api", version.ref="junit"}
 junit-engine = {module = "org.junit.jupiter:junit-jupiter-engine", version.ref="junit"}
 gson = {module = "com.google.code.gson:gson", version.ref = "gson"}
+testfx-core = {module = "org.testfx:testfx-core", version.ref = "testfx"}
+testfx-junit = {module = "org.testfx:testfx-junit5", version.ref = "testfx"}
+testfx-monocle = {module = "org.testfx:openjfx-monocle", version.ref = "monocle"}
+awaitility = {module = "org.awaitility:awaitility", version.ref = "awaitility"}
 
 [bundles]
 vertx-dependencies = [
@@ -19,6 +26,12 @@ vertx-dependencies = [
     "vertx-web",
     "vertx-web-client",
     "vertx-test"
+]
+
+testfx = [
+    "testfx-core",
+    "testfx-junit",
+    "testfx-monocle"
 ]
 
 [plugins]
