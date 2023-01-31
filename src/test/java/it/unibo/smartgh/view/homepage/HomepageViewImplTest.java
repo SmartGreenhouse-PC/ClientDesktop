@@ -1,20 +1,15 @@
 package it.unibo.smartgh.view.homepage;
 
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import it.unibo.smartgh.view.AbstractViewTest;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.awaitility.Duration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 
@@ -24,36 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
-class HomepageViewImplTest {
+class HomepageViewImplTest extends AbstractViewTest {
 
-    private static final String HOMEPAGE_LAYOUT = "/layout/homepage.fxml";
-    private HomepageView view;
-    private Parent scene;
+    private static final String HOMEPAGE_LAYOUT = "homepage.fxml";
+    protected HomepageView view;
 
-    @BeforeAll
-    static public void setup() {
-        System.setProperty("testfx.robot", "glass");
-        System.setProperty("testfx.headless", "true");
-        System.setProperty("java.awt.headless", "true");
-        System.setProperty("prism.order", "sw");
-        System.setProperty("prism.text", "t2k");
-        WaitForAsyncUtils.checkAllExceptions = false;
-        WaitForAsyncUtils.autoCheckException = false;
+    public HomepageViewImplTest() {
+        super(HOMEPAGE_LAYOUT);
     }
 
     @Start
     public void start(final Stage stage) {
         try {
-            final FXMLLoader loader = new FXMLLoader(getClass().getResource(HOMEPAGE_LAYOUT));
-            this.scene = loader.load();
-            this.view = loader.getController();
-            stage.setScene(new Scene(scene));
-            stage.show();
-
-            stage.setOnCloseRequest(t -> {
-                Platform.exit();
-                System.exit(0);
-            });
+            this.view = (HomepageView) setupScene(stage);
         } catch (IOException e) {
             e.printStackTrace();
         }
