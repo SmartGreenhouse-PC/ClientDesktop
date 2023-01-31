@@ -24,7 +24,7 @@ import static org.testfx.assertions.api.Assertions.assertThat;
 @ExtendWith(ApplicationExtension.class)
 class HomepageParameterViewImplTest extends AbstractViewTest {
 
-    private static final String HOMEPAGE_LAYOUT = "homepage_parameter.fxml";
+    private static final String HOMEPAGE_PARAMETER_LAYOUT = "homepage_parameter.fxml";
     private final ParameterType parameterType = ParameterType.TEMPERATURE;
     private final PlantParameter parameter = new PlantParameterBuilder(parameterType.getName()).min(8.0).max(35.0).unit("\u2103").build();
     private final Double currentValue = 7.0;
@@ -33,7 +33,7 @@ class HomepageParameterViewImplTest extends AbstractViewTest {
     @Start
     public void start(final Stage stage) {
         try {
-            this.view = (HomepageParameterView) setupScene(stage, HOMEPAGE_LAYOUT);
+            this.view = (HomepageParameterView) setupScene(stage, HOMEPAGE_PARAMETER_LAYOUT);
         } catch (IOException e) {
             e.printStackTrace();
         }
