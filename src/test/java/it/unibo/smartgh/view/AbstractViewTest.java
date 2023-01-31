@@ -12,12 +12,7 @@ import java.io.IOException;
 
 public abstract class AbstractViewTest {
 
-    private final String layout;
     protected Parent scene;
-
-    public AbstractViewTest(String layout) {
-        this.layout = "/layout/" + layout;
-    }
 
     @BeforeAll
     static public void setup() {
@@ -30,8 +25,8 @@ public abstract class AbstractViewTest {
         WaitForAsyncUtils.autoCheckException = false;
     }
 
-    public SubView setupScene(final Stage stage) throws IOException {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource(layout));
+    public SubView setupScene(final Stage stage, String layout) throws IOException {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/" + layout));
         this.scene = loader.load();
         SubView view = loader.getController();
         stage.setScene(new Scene(scene));

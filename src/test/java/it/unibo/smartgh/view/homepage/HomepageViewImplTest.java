@@ -24,14 +24,10 @@ class HomepageViewImplTest extends AbstractViewTest {
     private static final String HOMEPAGE_LAYOUT = "homepage.fxml";
     protected HomepageView view;
 
-    public HomepageViewImplTest() {
-        super(HOMEPAGE_LAYOUT);
-    }
-
     @Start
     public void start(final Stage stage) {
         try {
-            this.view = (HomepageView) setupScene(stage);
+            this.view = (HomepageView) setupScene(stage, HOMEPAGE_LAYOUT);
         } catch (IOException e) {
             e.printStackTrace();
         }
