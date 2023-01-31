@@ -23,6 +23,17 @@ public class ParameterImpl implements Parameter{
         this.currentValue = currentValue;
     }
 
+    /**
+     * Instantiates a new Parameter.
+     * @param name         the name of the parameter
+     * @param currentValue the current value of the parameter
+     * @param history       the parameter history
+     */
+    public ParameterImpl(String name, ParameterValue currentValue, List<ParameterValue> history) {
+        this(name, currentValue);
+        this.history = history;
+    }
+
     @Override
     public String getName() {
         return this.name;
