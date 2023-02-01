@@ -21,6 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
+/**
+ * Test to verify the correct behaviour of parameters in the application homepage.
+ */
 @ExtendWith(ApplicationExtension.class)
 class HomepageParameterViewImplTest extends AbstractViewTest {
 

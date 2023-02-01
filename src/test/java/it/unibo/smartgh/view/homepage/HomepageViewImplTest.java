@@ -1,8 +1,5 @@
 package it.unibo.smartgh.view.homepage;
 
-import it.unibo.smartgh.model.parameter.ParameterType;
-import it.unibo.smartgh.model.plant.PlantParameter;
-import it.unibo.smartgh.model.plant.PlantParameterBuilder;
 import it.unibo.smartgh.view.AbstractViewTest;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -21,14 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
+/**
+ * Test to verify the correct behaviour of application homepage.
+ */
 @ExtendWith(ApplicationExtension.class)
 class HomepageViewImplTest extends AbstractViewTest {
 
     private static final String HOMEPAGE_LAYOUT = "homepage.fxml";
-    private static final String HOMEPAGE_PARAMETER_LAYOUT = "homepage_parameter.fxml";
-    private final ParameterType parameterType = ParameterType.TEMPERATURE;
-    private final PlantParameter parameter = new PlantParameterBuilder(parameterType.getName()).min(8.0).max(35.0).unit("\u2103").build();
-    private final Double currentValue = 7.0;
     protected HomepageView view;
 
     @Start

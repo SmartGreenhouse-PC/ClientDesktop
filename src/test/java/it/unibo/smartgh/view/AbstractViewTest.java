@@ -10,6 +10,9 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 
+/**
+ * Abstract class for testing the view with testfx.
+ */
 public abstract class AbstractViewTest {
 
     protected Parent scene;
