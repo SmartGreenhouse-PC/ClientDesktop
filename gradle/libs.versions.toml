@@ -2,7 +2,7 @@
 vertx = "4.3.3"
 junit = "5.8.1"
 vertxTest = "4.1.5"
-gson = "2.8.8"
+gson = "2.8.9"
 
 [libraries]
 vertx-core = {module = "io.vertx:vertx-core", version.ref = "vertx"}
