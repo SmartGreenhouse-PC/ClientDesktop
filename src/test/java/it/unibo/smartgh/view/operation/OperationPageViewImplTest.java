@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +51,7 @@ class OperationPageViewImplTest extends AbstractViewTest {
         final TableView<OperationPageViewImpl.Row> table = robot.lookup("#operationTable").queryTableView();
         final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
-        this.view.initializeView(Arrays.stream(ParameterType.values()).map(ParameterType::getName).toList());
+        this.view.initializeView(Arrays.stream(ParameterType.values()).map(ParameterType::getName).collect(Collectors.toList()));
         this.view.addTableRow(formatter.format(operation.getDate()), operation.getModality().toString(), operation.getParameter(), operation.getAction());
 
         await().pollInterval(Duration.TWO_HUNDRED_MILLISECONDS).atMost(Duration.FIVE_SECONDS).untilAsserted(() ->
