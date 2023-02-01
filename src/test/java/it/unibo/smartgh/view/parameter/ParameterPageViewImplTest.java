@@ -79,14 +79,13 @@ class ParameterPageViewImplTest extends AbstractViewTest {
                 this.parameter.getCurrentValue().getValue().toString() +  plantParameter.getUnit(),
                 this.parameter.getHistoryAsMap(), "alarm");
 
-        await().pollInterval(Duration.TWO_HUNDRED_MILLISECONDS).atMost(Duration.FIVE_SECONDS).untilAsserted(() -> {
-            table.getItems().forEach(row -> {
+        await().pollInterval(Duration.TWO_HUNDRED_MILLISECONDS).atMost(Duration.FIVE_SECONDS).untilAsserted(() ->
+                table.getItems().forEach(row -> {
                 try {
                     assertTrue(this.history.contains(new ParameterValueImpl(ID, formatter.parse(row.getDate()), row.getValue())));
                 } catch (ParseException e) {
                     fail();
                 }
-            });
-        });
+            }));
     }
 }
