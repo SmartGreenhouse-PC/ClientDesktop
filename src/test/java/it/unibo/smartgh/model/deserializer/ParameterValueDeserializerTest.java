@@ -1,4 +1,4 @@
-package it.unibo.smartgh.view.presentation.deserializer;
+package it.unibo.smartgh.model.deserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
