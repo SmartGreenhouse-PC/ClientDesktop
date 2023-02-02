@@ -1,7 +1,7 @@
 [versions]
 vertx = "4.3.7"
 junit = "5.8.2"
-vertxTest = "4.1.8"
+vertxTest = "4.3.7"
 gson = "2.10.1"
 
 [libraries]
