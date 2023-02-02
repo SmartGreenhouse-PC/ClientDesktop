@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * The implementation of Parameter value deserializer.
@@ -17,20 +18,19 @@ public class ParameterValueDeserializer  extends GeneralDeserializer implements 
     @Override
     public ParameterValue deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-        ParameterValue plantValue = new ParameterValueImpl();
         if(json instanceof JsonObject){
             JsonObject object = (JsonObject) json;
-            plantValue.setGreenhouseId(this.getPropertyAsString(object, "greenhouseId"));
+            Date date;
+            String greenhouseId = this.getPropertyAsString(object, "greenhouseId");
             try {
-                plantValue.setDate(formatter.parse(this.getPropertyAsString(object, "date")));
+                date = formatter.parse(this.getPropertyAsString(object, "date"));
             } catch (ParseException e) {
                 throw new JsonParseException("Not a valid date format (dd/MM/yyyy - HH:mm:ss)");
             }
-            plantValue.setValue(this.getPropertyAs(object, "value", Double.class, context));
+            Double value = this.getPropertyAs(object, "value", Double.class, context);
+            return new ParameterValueImpl(greenhouseId, date, value);
         }else{
-            throw new JsonParseException("Not a valid plant value: " + plantValue);
+            throw new JsonParseException("Not a valid plant value");
         }
-
-        return plantValue;
     }
 }

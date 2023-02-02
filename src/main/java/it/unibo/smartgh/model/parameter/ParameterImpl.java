@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  */
 public class ParameterImpl implements Parameter{
     private final String name;
-    private final ParameterValue currentValue;
+    private ParameterValue currentValue;
     private List<ParameterValue> history;
 
     /**
@@ -42,6 +42,11 @@ public class ParameterImpl implements Parameter{
     @Override
     public ParameterValue getCurrentValue() {
         return this.currentValue;
+    }
+
+    @Override
+    public void setCurrentValue(ParameterValue value) {
+        this.currentValue = value;
     }
 
     @Override

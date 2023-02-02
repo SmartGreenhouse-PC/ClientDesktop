@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -103,12 +104,14 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             if(json.getValue("greenhouseId").equals(this.id)) {
                                 if (json.getValue("parameterName").equals(parameterType.getName())) {
                                     DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-                                    this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
+                                    Date date;
+                                    Double value = Double.valueOf(json.getValue("value").toString());
                                     try {
-                                        this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date")));
+                                        date = formatter.parse(json.getString("date"));
                                     } catch (ParseException e) {
                                         throw new RuntimeException(e);
                                     }
+                                    this.parameter.setCurrentValue(new ParameterValueImpl(this.id, date, value));
                                     var newHistory = this.parameter.getHistory();
                                     newHistory.remove(0);
                                     ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());

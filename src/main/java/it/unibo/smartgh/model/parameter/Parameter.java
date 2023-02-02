@@ -21,6 +21,12 @@ public interface Parameter {
     ParameterValue getCurrentValue();
 
     /**
+     * Set the parameter current value.
+     * @param value of the parameter values
+     */
+    void setCurrentValue(ParameterValue value);
+
+    /**
      * Get the parameter history
      * @return the history
      */

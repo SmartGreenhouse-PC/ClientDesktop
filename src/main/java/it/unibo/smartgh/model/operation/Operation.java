@@ -17,22 +17,10 @@ public interface Operation {
     String getGreenhouseId();
 
     /**
-     * Sets the id of the greenhouse where the operation took place.
-     * @param greenhouseId the id of the greenhouse
-     */
-    void setGreenhouseId(String greenhouseId);
-
-    /**
      * Returns the modality of the operation (automatic or manual).
      * @return the modality of the operation
      */
     Modality getModality();
-
-    /**
-     * Sets the modality of the operation (automatic or manual).
-     * @param modality the modality of the operation
-     */
-    void setModality(Modality modality);
 
     /**
      * Returns the date of the operation.
@@ -41,22 +29,10 @@ public interface Operation {
     Date getDate();
 
     /**
-     * Sets the date of the operation.
-     * @param date the date of the operation
-     */
-    void setDate(Date date);
-
-    /**
      * Returns the parameter of the operation.
      * @return the parameter of the operation
      */
     String getParameter();
-
-    /**
-     * Sets the parameter of the operation.
-     * @param parameter the parameter of the operation
-     */
-    void setParameter(String parameter);
 
     /**
      * Returns the action of the operation.
@@ -64,10 +40,5 @@ public interface Operation {
      */
     String getAction();
 
-    /**
-     * Sets the action of the operation.
-     * @param action the action of the operation
-     */
-    void setAction(String action);
 
 }
