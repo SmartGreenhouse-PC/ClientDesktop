@@ -1,9 +1,8 @@
-package it.unibo.smartgh.model.deserializer;
+package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import it.unibo.smartgh.model.greenhouse.*;
 import it.unibo.smartgh.model.parameter.*;
 import it.unibo.smartgh.model.plant.*;
 import it.unibo.smartgh.presentation.GsonUtils;
@@ -16,11 +15,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test to verify the correct deserialization of a {@link Greenhouse} and its property.
+ * Test to verify the correct creation of a {@link Plant} and its property.
  */
-class GreenhouseDeserializerTest {
+class PlantDeserializerTest {
 
-    private Greenhouse greenhouse;
+    private Plant plant;
     private Gson gson;
 
     @BeforeEach
@@ -51,12 +50,11 @@ class GreenhouseDeserializerTest {
                     .build());
         }};
 
-        Plant plant = new PlantBuilder(name)
+        this.plant = new PlantBuilder(name)
                 .description(description)
                 .image(img)
                 .parameters(parameters)
                 .build();
-        this.greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
         this.gson = GsonUtils.createGson();
     }
 
@@ -96,12 +94,9 @@ class GreenhouseDeserializerTest {
         return soilMoistureParameter;
     }
 
-
-
     @Test
     void testDeserialization() {
         JsonObject json = new JsonObject();
-        JsonObject jsonPlant = new JsonObject();
         JsonArray array = new JsonArray();
 
 
@@ -109,18 +104,15 @@ class GreenhouseDeserializerTest {
         array.add(this.serializeSoilMoistureParameter());
         array.add(this.serializeBrightnessParameter());
         array.add(this.serializeHumidityParameter());
-        jsonPlant.addProperty("name", this.greenhouse.getPlant().getName());
-        jsonPlant.addProperty("description", this.greenhouse.getPlant().getDescription());
-        jsonPlant.addProperty("img", this.greenhouse.getPlant().getImg());
-        jsonPlant.add("parameters", array);
+        json.addProperty("name", this.plant.getName());
+        json.addProperty("description", this.plant.getDescription());
+        json.addProperty("img", this.plant.getImg());
+        json.add("parameters", array);
 
-        json.add("plant", jsonPlant);
-        json.addProperty("id", this.greenhouse.getId());
-        json.addProperty("modality", this.greenhouse.getActualModality().toString());
-
-        Greenhouse deserialized = this.gson.fromJson(json, GreenhouseImpl.class);
-
-        assertEquals(this.greenhouse.getPlant(), deserialized.getPlant());
-        assertEquals(this.greenhouse.getActualModality(), deserialized.getActualModality());
+        Plant deserialized = this.gson.fromJson(json, PlantImpl.class);
+        assertEquals(this.plant.getName(), deserialized.getName());
+        assertEquals(this.plant.getDescription(), deserialized.getDescription());
+        assertEquals(this.plant.getImg(), deserialized.getImg());
+        assertEquals(this.plant.getParameters(), deserialized.getParameters());
     }
 }

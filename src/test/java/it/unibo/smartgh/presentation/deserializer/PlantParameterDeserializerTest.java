@@ -1,4 +1,4 @@
-package it.unibo.smartgh.model.deserializer;
+package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test to verify the correct deserialization of a {@link Parameter} and its property.
+ * Test to verify the correct deserialization of a {@link PlantParameter} and its property.
  */
 class PlantParameterDeserializerTest {
 
