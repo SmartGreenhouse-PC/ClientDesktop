@@ -2,7 +2,7 @@ plugins {
     java
     application
     jacoco
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    alias(libs.plugins.shadowJar)
     alias(libs.plugins.gitSemVer)
     alias(libs.plugins.javafx)
 }
