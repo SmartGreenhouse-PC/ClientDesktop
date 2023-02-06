@@ -97,6 +97,9 @@ public class ParameterPageViewImpl implements ParameterPageView {
         });
     }
 
+    /**
+     * Handler of the back button.
+     */
     @FXML
     public void backButtonClicked() {
         this.controller.closeSocket();

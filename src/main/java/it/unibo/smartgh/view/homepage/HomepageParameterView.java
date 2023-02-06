@@ -39,6 +39,7 @@ public interface HomepageParameterView extends SubView {
 
     /**
      * Sets the homepage controller.
+     * @param controller of the homepage
      */
     void setController(HomepageController controller);
 }

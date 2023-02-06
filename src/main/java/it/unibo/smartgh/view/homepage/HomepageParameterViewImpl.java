@@ -36,6 +36,9 @@ public class HomepageParameterViewImpl implements HomepageParameterView {
     private String unit;
     private String parameterStatus = "";
 
+    /**
+     * Handler called when a parameter is clicked.
+     */
     @FXML
     public void parameterClicked() {
         this.controller.closeSocket();

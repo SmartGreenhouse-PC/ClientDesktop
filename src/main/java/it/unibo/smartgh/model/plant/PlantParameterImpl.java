@@ -12,6 +12,13 @@ public class PlantParameterImpl implements PlantParameter {
     private final Double max;
     private final String unit;
 
+    /**
+     * Constructor for a plant parameter.
+     * @param name of the parameter
+     * @param min of the parameter
+     * @param max of the parameter
+     * @param unit of the parameter
+     */
     public PlantParameterImpl(String name, Double min, Double max, String unit) {
         this.name = name;
         this.min = min;

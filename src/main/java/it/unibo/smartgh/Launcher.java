@@ -9,7 +9,10 @@ import it.unibo.smartgh.view.ApplicationViewImpl;
  * A class that represents the entry point of the application.
  */
 public final class Launcher {
-
+    /**
+     * Entry point.
+     * @param args of the main
+     */
     public static void main(final String[] args) {
         ApplicationView view = new ApplicationViewImpl();
         ApplicationController controller = new ApplicationControllerImpl(view);

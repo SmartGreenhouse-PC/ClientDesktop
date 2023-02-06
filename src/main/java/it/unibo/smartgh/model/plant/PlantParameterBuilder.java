@@ -49,7 +49,7 @@ public class PlantParameterBuilder {
 
     /**
      * Create a new Parameter object
-     * @return
+     * @return a new plant parameter
      */
     public PlantParameter build(){
         return new PlantParameterImpl(name, min, max, unit);

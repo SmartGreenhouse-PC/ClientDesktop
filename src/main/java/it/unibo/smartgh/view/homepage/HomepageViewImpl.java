@@ -54,6 +54,9 @@ public class HomepageViewImpl implements HomepageView {
         this.status = "";
     }
 
+    /**
+     * Initialize the view.
+     */
     @FXML
     public void initialize() {
         for (int i = 0; i < ParameterType.values().length / 2; i++) {
@@ -73,6 +76,9 @@ public class HomepageViewImpl implements HomepageView {
         }
     }
 
+    /**
+     * Handler called when operation button is clicked.
+     */
     @FXML
     public void operationBtnClicked() {
         this.controller.closeSocket();

@@ -25,6 +25,9 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * Initialize the view.
+     */
     @FXML
     public void initialize() {
         this.changeScene("homepage.fxml");

@@ -20,6 +20,7 @@ public interface OperationPageView extends SubView {
 
     /**
      * Initialize view.
+     * @param parameters  of the plant
      */
     void initializeView(List<String> parameters);
 

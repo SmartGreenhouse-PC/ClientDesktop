@@ -87,6 +87,9 @@ public class OperationPageViewImpl implements OperationPageView {
         });
     }
 
+    /**
+     * Handler of the back button.
+     */
     @FXML
     public void backBtnClicked() {
         this.controller.closeSocket();
