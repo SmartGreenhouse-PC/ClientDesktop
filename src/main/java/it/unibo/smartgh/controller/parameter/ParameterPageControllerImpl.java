@@ -13,6 +13,7 @@ import it.unibo.smartgh.model.greenhouse.Greenhouse;
 import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.model.parameter.*;
 import it.unibo.smartgh.model.plant.Plant;
+import it.unibo.smartgh.model.plant.PlantParameter;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.parameter.ParameterPageView;
 
@@ -23,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -102,12 +104,14 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                             if(json.getValue("greenhouseId").equals(this.id)) {
                                 if (json.getValue("parameterName").equals(parameterType.getName())) {
                                     DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-                                    this.parameter.getCurrentValue().setValue(Double.valueOf(json.getValue("value").toString()));
+                                    Date date;
+                                    Double value = Double.valueOf(json.getValue("value").toString());
                                     try {
-                                        this.parameter.getCurrentValue().setDate(formatter.parse(json.getString("date")));
+                                        date = formatter.parse(json.getString("date"));
                                     } catch (ParseException e) {
                                         throw new RuntimeException(e);
                                     }
+                                    this.parameter.setCurrentValue(new ParameterValueImpl(this.id, date, value));
                                     var newHistory = this.parameter.getHistory();
                                     newHistory.remove(0);
                                     ParameterValue newParamValue = new ParameterValueImpl(this.id, this.parameter.getCurrentValue().getDate(), this.parameter.getCurrentValue().getValue());
@@ -138,9 +142,10 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
                     greenhouse.setId(this.id);
-                    this.unit = greenhouse.getPlant().getUnitMap().get(parameterName);
-                    this.min = this.paramOptimalValue("Min", parameterName, greenhouse.getPlant());
-                    this.max = this.paramOptimalValue("Max", parameterName, greenhouse.getPlant());
+                    PlantParameter param = greenhouse.getPlant().getParameters().get(ParameterType.parameterOf(parameterName).get());
+                    this.unit = param.getUnit();
+                    this.min = param.getMin();
+                    this.max = param.getMax();
                 })
                 .onFailure(System.out::println)
                 .andThen( resp ->
@@ -177,15 +182,5 @@ public class ParameterPageControllerImpl implements ParameterPageController {
                                                     status);
                                         })
                                         .onFailure(System.out::println)));
-    }
-
-    private Double paramOptimalValue(String type, String param, Plant plant){
-        String paramName = param.substring(0, 1).toUpperCase() + param.substring(1);
-        try {
-            Class<?> c = Class.forName(Plant.class.getName());
-            return (Double) c.getDeclaredMethod("get"+type+paramName).invoke(plant);
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -13,6 +13,7 @@ import it.unibo.smartgh.model.greenhouse.Greenhouse;
 import it.unibo.smartgh.model.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.model.operation.Operation;
 import it.unibo.smartgh.model.operation.OperationImpl;
+import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.presentation.GsonUtils;
 import it.unibo.smartgh.view.operation.OperationPageView;
 import it.unibo.smartgh.view.operation.OperationPageViewImpl;
@@ -177,7 +178,9 @@ public class OperationPageControllerImpl implements OperationPageController {
                 .onSuccess(resp -> {
                     Greenhouse greenhouse = gson.fromJson(resp.body(), GreenhouseImpl.class);
                     greenhouse.setId(this.id);
-                    this.view.initializeView(new ArrayList<>(greenhouse.getPlant().getUnitMap().keySet()));
+                    this.view.initializeView(greenhouse.getPlant().getParameters().keySet().stream()
+                            .map(ParameterType::getName)
+                            .collect(Collectors.toList()));
                 })
                 .onFailure(System.out::println)
                 .andThen(r -> populateTableWithAllOperations());

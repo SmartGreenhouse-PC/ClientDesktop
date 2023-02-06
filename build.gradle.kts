@@ -1,8 +1,10 @@
 plugins {
     java
     application
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    jacoco
+    alias(libs.plugins.shadowJar)
     alias(libs.plugins.gitSemVer)
+    alias(libs.plugins.javafx)
 }
 
 group = "it.unibo.smartgh"
@@ -30,11 +32,14 @@ dependencies {
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
-            implementation("org.openjfx:javafx-$module:13:$platform")
+            implementation("org.openjfx:javafx-$module:19:$platform")
         }
     }
+    testImplementation(libs.awaitility)
+    testImplementation(libs.bundles.testfx)
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
+    testImplementation("org.skyscreamer:jsonassert:1.5.1")
 }
 
 tasks.getByName<Test>("test") {

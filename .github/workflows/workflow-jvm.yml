@@ -17,7 +17,7 @@ jobs:
           distribution: temurin
           java-version: 11
       - name: build
-        run: ./gradlew build -x test
+        run: ./gradlew build -x test -x jar
       - name: test
         run: ./gradlew test --parallel || ./gradlew test --parallel || ./gradlew test --parallel
   release:

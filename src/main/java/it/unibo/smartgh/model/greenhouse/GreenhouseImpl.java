@@ -21,6 +21,17 @@ public class GreenhouseImpl implements Greenhouse {
         this.modality = modality;
     }
 
+    /**
+     * Constructor for the greenhouse entity.
+     * @param id the id of the greenhouse
+     * @param plant of the greenhouse
+     * @param modality the actual modality of management
+     */
+    public GreenhouseImpl(String id, Plant plant, Modality modality) {
+        this(plant, modality);
+        this.id = id;
+    }
+
     @Override
     public String getId() {
         return this.id;
