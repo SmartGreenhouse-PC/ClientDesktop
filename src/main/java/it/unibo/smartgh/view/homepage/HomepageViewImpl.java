@@ -5,9 +5,11 @@ import it.unibo.smartgh.controller.homepage.HomepageControllerImpl;
 import it.unibo.smartgh.model.parameter.ParameterType;
 import it.unibo.smartgh.view.ApplicationView;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
@@ -40,11 +42,13 @@ public class HomepageViewImpl implements HomepageView {
     @FXML
     private GridPane parameterGrid;
 
+    @FXML
+    private ComboBox<String> greenhouses;
+
     private final Map<ParameterType, HomepageParameterView> parameterViews;
     private ApplicationView mainView;
     private HomepageController controller;
     private String status;
-    private String id;
 
     /**
      * Instantiates a new Homepage view.
@@ -88,10 +92,9 @@ public class HomepageViewImpl implements HomepageView {
     @Override
     public void initView(ApplicationView mainView, String id) {
         this.mainView = mainView;
-        this.id = id;
-        this.controller = new HomepageControllerImpl(this, this.id);
+        this.controller = new HomepageControllerImpl(this);
         this.parameterViews.values().forEach(p -> {
-            p.initView(mainView, this.id);
+            p.initView(mainView, id);
             p.setController(controller);
         });
         controller.initializeData();
@@ -129,5 +132,22 @@ public class HomepageViewImpl implements HomepageView {
                 this.statusLabel.getStyleClass().add(this.status + "State");
             }
         });
+    }
+
+    @Override
+    public void initializeGreenhousesSelector(List<String> greenhousesId) {
+        Platform.runLater(() -> {
+            greenhousesId.forEach(id -> this.greenhouses.getItems().add(id));
+            this.greenhouses.setOnAction(this::selectGreenhouseId);
+            this.greenhouses.getSelectionModel().select(0);
+        });
+
+
+    }
+
+    private void selectGreenhouseId(ActionEvent actionEvent) {
+        String id = this.greenhouses.getValue();
+        this.controller.greenhouseSelected(id);
+        this.mainView.setId(id);
     }
 }

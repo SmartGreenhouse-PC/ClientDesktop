@@ -1,7 +1,10 @@
 package it.unibo.smartgh.view.homepage;
 
 import it.unibo.smartgh.model.parameter.ParameterType;
+import it.unibo.smartgh.view.ApplicationView;
 import it.unibo.smartgh.view.SubView;
+
+import java.util.List;
 
 /**
  * The Homepage view interface.
@@ -33,4 +36,10 @@ public interface HomepageView extends SubView {
      * @param status        the status of the parameter
      */
     void updateParameterValue(ParameterType parameterType, Double value, String status);
+
+    /**
+     * Initialize the greenhouses' combo box.
+     * @param greenhousesId list of greenhouses id.
+     */
+    void initializeGreenhousesSelector(List<String> greenhousesId);
 }

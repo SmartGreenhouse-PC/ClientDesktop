@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 public class ApplicationViewImpl extends Application implements ApplicationView {
 
-    private final static String ID = "63af0ae025d55e9840cbc1fc";
+    private String id;
 
     @FXML
     private BorderPane borderPane;
@@ -61,7 +61,7 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
             final FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/layout/" + fxmlFileName));
             final Parent scene = loader.load();
             final SubView view = loader.getController();
-            view.initView(this, ID);
+            view.initView(this, id);
             this.borderPane.setCenter(scene);
             BorderPane.setMargin(scene, new Insets(5, 20, 5, 20));
             return Optional.of(view);
@@ -69,5 +69,10 @@ public class ApplicationViewImpl extends Application implements ApplicationView 
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }

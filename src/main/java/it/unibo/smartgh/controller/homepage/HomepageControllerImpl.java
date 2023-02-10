@@ -38,7 +38,7 @@ public class HomepageControllerImpl implements HomepageController {
     private static final String PARAMETER_PATH = BASE_PATH + "/parameter";
     private final HomepageView view;
     private final Vertx vertx;
-    private final String id;
+    private String id;
     private final Gson gson;
     private GreenhouseImpl greenhouse;
     private Plant plant;
@@ -47,11 +47,9 @@ public class HomepageControllerImpl implements HomepageController {
     /**
      * Instantiates a new Homepage controller.
      * @param homepageView the homepage view
-     * @param id           the greenhouse id
      */
-    public HomepageControllerImpl(HomepageViewImpl homepageView, String id) {
+    public HomepageControllerImpl(HomepageViewImpl homepageView) {
         this.view = homepageView;
-        this.id = id;
         this.vertx = Vertx.vertx();
         this.gson = GsonUtils.createGson();
         try {
@@ -67,13 +65,33 @@ public class HomepageControllerImpl implements HomepageController {
 
     @Override
     public void initializeData() {
-        this.updateView();
+        WebClient client = WebClient.create(vertx);
+        client.get(PORT, HOST, GREENHOUSE_PATH + "/all")
+                .as(BodyCodec.jsonArray())
+                .send()
+                .onSuccess(response ->
+                    this.view.initializeGreenhousesSelector(response.body().getList())
+                );
+        //this.updateView();
         this.setSocket();
     }
 
     @Override
     public void closeSocket() {
         this.socket.close();
+    }
+
+    @Override
+    public void greenhouseSelected(String id) {
+        this.id = id;
+        this.clearParamValues();
+        this.updateView();
+    }
+
+    private void clearParamValues() {
+        Arrays.stream(ParameterType.values())
+                .forEach(p -> this.view.updateParameterValue(p, null, "normal"));
+
     }
 
     private void setSocket() {
