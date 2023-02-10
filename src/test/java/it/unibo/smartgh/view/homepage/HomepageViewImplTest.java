@@ -1,6 +1,7 @@
 package it.unibo.smartgh.view.homepage;
 
 import it.unibo.smartgh.view.AbstractViewTest;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -14,8 +15,7 @@ import org.testfx.framework.junit5.Start;
 import java.io.IOException;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 /**
@@ -49,5 +49,19 @@ class HomepageViewImplTest extends AbstractViewTest {
             assertNotNull(plantImage.getImage());
             assertFalse(plantImage.getImage().isError());
         });
+    }
+
+    @Test
+    public void testSelectGreenhouse(FxRobot robot){
+        final ComboBox greenhouses = robot.lookup("#greenhouses").queryAs(ComboBox.class);
+        greenhouses.getItems().add("greenhouse1");
+        greenhouses.getItems().add("greenhouse2");
+        greenhouses.getSelectionModel().select(0);
+        await().pollInterval(Duration.TWO_HUNDRED_MILLISECONDS).atMost(Duration.FIVE_SECONDS).untilAsserted(() -> {
+           String value = greenhouses.getValue().toString();
+            assertEquals("greenhouse1", value);
+        });
+
+
     }
 }
