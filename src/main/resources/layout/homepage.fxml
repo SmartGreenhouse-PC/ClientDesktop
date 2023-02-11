@@ -27,7 +27,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label styleClass="titleText" text="Serra">
+            <Label styleClass="titleText" text="Serra:">
                <padding>
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </padding>
