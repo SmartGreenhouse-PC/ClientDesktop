@@ -1,3 +1,25 @@
+## [1.2.0](https://github.com/SmartGreenhouse-PC/ClientDesktop/compare/1.1.0...1.2.0) (2023-02-11)
+
+
+### Features
+
+* add greenhouse selector ([4e4e21a](https://github.com/SmartGreenhouse-PC/ClientDesktop/commit/4e4e21a1d457da88d6524319c1f64e2e7a419e0a))
+
+
+### Dependency updates
+
+* **deps:** update dependency org.awaitility:awaitility to v3.1.6 ([90ab4c8](https://github.com/SmartGreenhouse-PC/ClientDesktop/commit/90ab4c8b12a16c7369df49912681b48e914fa8a1))
+
+
+### Tests
+
+* add test for select greenhouse ([4e4bf78](https://github.com/SmartGreenhouse-PC/ClientDesktop/commit/4e4bf78949b79dae6d9cbd160859e32f89070142))
+
+
+### Style improvements
+
+* add detail to view ([077e85d](https://github.com/SmartGreenhouse-PC/ClientDesktop/commit/077e85d2fd76c0137ec2c1e7a81e22a02a837bc5))
+
 ## [1.1.0](https://github.com/SmartGreenhouse-22-23/ClientDesktop/compare/1.0.2...1.1.0) (2023-02-06)
 
 
